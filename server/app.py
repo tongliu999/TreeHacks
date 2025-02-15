@@ -24,7 +24,7 @@ def course_search():
     target_school = data.get('target_school', 'Stanford University')
     
     course_search = CourseSearch()
-    result = course_search.courseFinder(course_code, university, target_school=target_school)
+    result = course_search.courseFinder(course_code, university, target_school=target_school, num=5)
     
     return jsonify(result)
 

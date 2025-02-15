@@ -1,7 +1,7 @@
 from openai import OpenAI
 import os
 from dotenv import load_dotenv
-
+import json
 class CourseSearch:
     def __init__(self):
         load_dotenv()
@@ -77,8 +77,6 @@ class CourseSearch:
 
         course_desc = self.courseDesc(course_code, university)
 
-        eligible_universities = self.get_eligible_universities(university)
-
         messages = [
             {
                 "role": "system",
@@ -96,7 +94,7 @@ class CourseSearch:
                 "content": (
                     f"I want a course similar to {course_code} from {university}, here is a description: {course_desc}."
                     f"Return {num} similar courses to {course_code} from {university}"
-                    f"that are offered at {target_school} in the list of eligible universities: {eligible_universities} excluding {university}."
+                    f"that are offered at {target_school}."
                 ),
             },
         ]
@@ -105,8 +103,13 @@ class CourseSearch:
             model="sonar-pro",
             messages=messages,
         )
+
+        output = response.choices[0].message.content
         
-        print(response.choices[0].message.content)
+        try:
+            return json.loads(output)
+        except json.JSONDecodeError:
+            raise ValueError("Failed to parse response as JSON")
 
 if __name__ == "__main__":
     # Example usage
