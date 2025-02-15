@@ -1,11 +1,12 @@
 from flask import Flask, jsonify, request
 from courseSearch import CourseSearch
+from mongo import ping
+
 app = Flask(__name__)
 
 @app.route('/')
 def hello():
     return jsonify({"message": "Welcome to the API!"})
-
 
 @app.route('/course_search', methods=['POST'])
 def course_search():
@@ -29,4 +30,5 @@ def course_search():
     return jsonify(result)
 
 if __name__ == '__main__':
+    ping()
     app.run(debug=True)
