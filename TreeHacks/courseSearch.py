@@ -4,7 +4,8 @@ from bs4 import BeautifulSoup
 
 class CourseSearch:
     def __init__(self):
-        self.api_key = "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"
+        with open('api_key.txt', 'r') as file:
+            self.api_key = file.read().strip()
 
     def get_eligible_universities(self, university):
         """
