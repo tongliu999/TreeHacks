@@ -111,5 +111,5 @@ class CourseSearch:
 if __name__ == "__main__":
     # Example usage
     courseSearch = CourseSearch()
-    # courseSearch.courseFinder("ECE358", "University of Waterloo", 30)
-    courseSearch.get_eligible_universities("University of waterloo", ["China", "Japan", "Netherlands"])
+    courseSearch.courseFinder("ECE358", "University of Waterloo", 5)
+    # courseSearch.get_eligible_universities("University of waterloo", ["China", "Japan", "Netherlands"])
