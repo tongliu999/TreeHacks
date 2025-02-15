@@ -1,11 +1,11 @@
 from openai import OpenAI
-import requests
-from bs4 import BeautifulSoup
+import os
+from dotenv import load_dotenv
 
 class CourseSearch:
     def __init__(self):
-        with open('api_key.txt', 'r') as file:
-            self.api_key = file.read().strip()
+        load_dotenv()
+        self.api_key = os.getenv('PERPLEXITY_KEY')
 
         self.client = OpenAI(api_key=self.api_key, base_url="https://api.perplexity.ai")
 
@@ -15,17 +15,7 @@ class CourseSearch:
         Args:
             university (str): The university to get eligible universities for (e.g., 'University of Waterloo')
         """
-        universities = []
-        if university == "University of Waterloo":
-            url = "https://uwaterloo-horizons.symplicity.com/index.php?s=programs&_so_list_sort5ad5a89179cb63f89c2de5a1bb7ce758=provider%3Aasc=250"
-            response = requests.get(url)
-            
-            soup = BeautifulSoup(response.content, 'html.parser')
-            for university in soup.find_all('td', class_="cspList_main lst-cl-inst_name"):
-                universities.append(university.text.strip())
-
-            return str(universities)
-
+        universities = ['University of Waterloo', 'University of Toronto', 'McGill University', 'University of British Columbia', 'University of Alberta', 'University of Calgary', 'University of Manitoba', 'University of Saskatchewan', 'University of Victoria', 'University of Winnipeg']
 
         for country in countries:
             messages = [
