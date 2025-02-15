@@ -2,6 +2,7 @@ from openai import OpenAI
 import os
 from dotenv import load_dotenv
 import json
+from mongo import save_course_info, get_course_info
 class CourseSearch:
     def __init__(self):
         load_dotenv()
@@ -10,11 +11,6 @@ class CourseSearch:
         self.client = OpenAI(api_key=self.api_key, base_url="https://api.perplexity.ai")
 
     def get_eligible_universities(self, university, countries = ["all"]):
-        """
-        Get all eligible universities for exchange students from a given university
-        Args:
-            university (str): The university to get eligible universities for (e.g., 'University of Waterloo')
-        """
         universities = ['University of Waterloo', 'University of Toronto', 'McGill University', 'University of British Columbia', 'University of Alberta', 'University of Calgary', 'University of Manitoba', 'University of Saskatchewan', 'University of Victoria', 'University of Winnipeg']
 
         for country in countries:
@@ -45,17 +41,26 @@ class CourseSearch:
         return universities
 
     def courseDesc(self, course_code, university):
+        course_info = get_course_info(course_code, university)
+        if course_info:
+            return course_info
+        
         messages = [
             {
                 "role": "system",
                 "content": (
-                    "You are an artificial intelligence assistant and you should only answer in text format"
+                    "You are an artificial intelligence assistant and you should only answer in JSON format."
+                    "The JSON should be a single object, with the following properties:"
+                    "- course_code: the code of the course"
+                    "- course_name: the name of the course"
+                    "- university: the university the course is from"
+                    "- course_desc: a quick description of the course's content, taken from the syllabus"
                 ),  
             },
             {
                 "role": "user",
                 "content": (
-                    f"Return a description of {course_code} from the {university}"
+                    f"Return a description of all the important topics in {course_code} from the {university} that would be relevant for finding equivalences at other universities."
                 ),
             },
         ]
@@ -64,18 +69,23 @@ class CourseSearch:
             model="sonar-pro",
             messages=messages,
         )
-        return response.choices[0].message.content
+
+        content = response.choices[0].message.content
+        print(content)
+
+        try:
+            course_info = json.loads(content)
+        
+        except json.JSONDecodeError:
+            raise ValueError("Failed to parse response as JSON")
+        
+        save_course_info(course_info)
+        return course_info
+
 
     def courseFinder(self, course_code, university, num = 1, target_school = "all universities"):
-        """
-        Find similar courses to a given course from other universities
-        
-        Args:
-            course_code (str): The course code to find similar courses for (e.g., 'CS246')
-            university (str): The university the course is from (e.g., 'University of Waterloo')
-        """
-
-        course_desc = self.courseDesc(course_code, university)
+        course_info = self.courseDesc(course_code, university)
+        course_desc = course_info["course_desc"]
 
         messages = [
             {
@@ -93,8 +103,7 @@ class CourseSearch:
                 "role": "user",
                 "content": (
                     f"I want a course similar to {course_code} from {university}, here is a description: {course_desc}."
-                    f"Return {num} similar courses to {course_code} from {university}"
-                    f"that are offered at {target_school}."
+                    f"Return {num} similar courses to {course_code} from {university} that are offered at {target_school}."
                 ),
             },
         ]
