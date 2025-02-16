@@ -74,39 +74,59 @@ def get_equivalences(from_code, from_university, to_university):
         print(f"Error retrieving equivalences: {str(e)}")
         return None
     
-def add_user_favourite(user_id, from_code, from_university, to_university, eq_id):
+def add_user_favourite(user_id, eq_id):
     try:
-        # Create a single favorite document
-        favorite = {
+        # Create a new document for each favorite
+        result = client["user_info"]["favorites"].insert_one({
             "user_id": user_id,
-            "from_code": from_code,
-            "from_university": from_university,
-            "to_university": to_university,
-            "equivalence_id": eq_id,
-        }
-        
-        result = client["user_info"]["favorites"].insert_one(favorite)
-        return result.inserted_id
+            "eq_id": eq_id
+        })
+        return result.inserted_id is not None
     except Exception as e:
         print(f"Error adding user favourite: {str(e)}")
         return None
     
-def remove_user_favourite(user_id, from_code, from_university, to_university):
+def remove_user_favourite(user_id, eq_id):
     try:
-        result = client["user_info"]["favorites"].delete_one({"user_id": user_id, "from_code": from_code, "from_university": from_university, "to_university": to_university})
-        if result.deleted_count > 0:
-            print(f"Successfully removed favourite for user {user_id}, course {from_code} at {from_university} to {to_university}")
-        else:
-            print(f"No favourite found to remove for user {user_id}, course {from_code} at {from_university} to {to_university}")
+        result = client["user_info"]["favorites"].delete_one({
+            "user_id": user_id,
+            "eq_id": eq_id
+        })
+        return result.deleted_count > 0
     except Exception as e:
         print(f"Error removing user favourite: {str(e)}")
         return None
 
-def get_user_favourites(user_id, from_code, from_university, to_university):
+def get_user_favourites(user_id):
     try:
-        return list(client["user_info"]["favorites"].find({"user_id": user_id, "from_code": from_code, "from_university": from_university, "to_university": to_university}))
+        favorites = client["user_info"]["favorites"].find({"user_id": user_id})
+        return [fav["eq_id"] for fav in favorites]
     except Exception as e:
         print(f"Error getting user favourites: {str(e)}")
-        return None
+        return []
+
+def get_course_info_by_eq_ids(eq_ids):
+    # Find all equivalence documents that contain any of the eq_ids in their equivalences array
+    equivalences_docs = list(client["course_info"]["equivalences"].find(
+        {"equivalences.eq_id": {"$in": eq_ids}}
+    ))
+
+    # Remove the _id field from each equivalence entry
+    for eq in equivalences_docs:
+        eq.pop("_id", None)
+
+    equivalences = []
+
+    # Annotate each equivallence entry with if it is a favourite or not
+    for equivalence_doc in equivalences_docs:
+        for eq in equivalence_doc["equivalences"]:
+            if eq["eq_id"] in eq_ids:
+                eq["is_favourite"] = True
+                equivalences.append(eq)
+    
+    print(equivalences)
+
+    return equivalences
+    
     
     
