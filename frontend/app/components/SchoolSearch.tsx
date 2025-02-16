@@ -76,7 +76,6 @@ export default function SchoolSearch() {
           <FormInput
             name="courseCodeSearch"
             placeholder="Course code"
-            label="Please provide the course code"
             containerProps={{ className: "flex-grow" }}
           />
           <button type="submit" className="cta-button h-min">
