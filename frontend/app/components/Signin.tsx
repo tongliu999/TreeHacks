@@ -10,7 +10,11 @@ export default function Signin({ onClose }: { onClose: () => void }) {
     setState({ ...state, userId });
     onClose();
   };
-  const form = useForm();
+  const form = useForm({
+    defaultValues: {
+      userId: state.userId || "",
+    },
+  });
 
   const userId = form.watch("userId");
   return (

@@ -20,6 +20,7 @@ export function meta({}: Route.MetaArgs) {
 export default function Home() {
   const { state, setState } = useContext(Context);
 
+  console.log(state);
   const school = state?.home?.school ?? "Unknown";
 
   useEffect(() => {
@@ -54,7 +55,7 @@ export default function Home() {
       <p>
         Select specific schools to check if they offer courses that meet your
         school's requirements. You must bookmark courses first in order for them
-        to shoe up on the course list.
+        to show up in the course list.
       </p>
       <div className="flex gap-4 w-full h-full">
         <SavedCourseList

@@ -34,6 +34,7 @@ const queryClient = new QueryClient();
 export function Layout({ children }: { children: React.ReactNode }) {
   const [state, setState] = useState<GlobalState>({
     userId: "Alex",
+    homeCourses: [],
   });
   return (
     <QueryClientProvider client={queryClient}>
