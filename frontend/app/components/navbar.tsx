@@ -26,7 +26,7 @@ export default function Navbar() {
           className="flex gap-2 text-[18px] items-center hover:brightness-80"
         >
           <LogoGlobe className="text-white" />
-          Explore
+          Deep Research
         </Link>
         <Link
           to="/my"
