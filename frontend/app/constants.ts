@@ -1,4 +1,4 @@
-export const API_ENDPOINT = "http://localhost:5000";
+export const API_ENDPOINT = "http://127.0.0.1:5000";
 
 export const CARD_COLOURS = [
   "#FFF4EF",
@@ -37,4 +37,4 @@ export const UNIVERSITY_LIST = [
   "ETH Zurich",
   "National University of Singapore",
   "Kyoto University"
-]
+];

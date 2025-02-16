@@ -2,8 +2,10 @@ from flask import Flask, jsonify, request
 from course_search import CourseSearch
 from mongo import ping
 from users import UserManager
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/')
 def hello():
