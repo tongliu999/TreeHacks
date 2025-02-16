@@ -20,7 +20,8 @@ export function meta({}: Route.MetaArgs) {
 export default function Home() {
   const { state, setState } = useContext(Context);
 
-  const school = state?.home?.school;
+  //   const school = state?.home?.school;
+  const school = "University of Waterloo";
 
   useEffect(() => {
     if (!school) {
@@ -62,8 +63,6 @@ export default function Home() {
           courses={data ?? []}
           isLoading={isLoading}
         />
-      </div>
-      <div>
         {numComparesArray.map((_) => (
           <CompareSchool hostSchool={school} hostCourseCodes={[]} />
         ))}
