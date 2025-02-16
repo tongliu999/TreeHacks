@@ -41,9 +41,7 @@ export default function Home() {
     );
   }
 
-  const { data, isLoading, error } = useSavedCourseListQuery({
-    school,
-  });
+  const savedCourses = state.homeCourses ?? [];
 
   const [numCompares, setNumCompares] = useState(1);
 
@@ -58,11 +56,7 @@ export default function Home() {
         to show up in the course list.
       </p>
       <div className="flex gap-4 w-full h-full">
-        <SavedCourseList
-          school={school}
-          courses={data ?? []}
-          isLoading={isLoading}
-        />
+        <SavedCourseList school={school} courses={savedCourses} />
         <div className="overflow-x-auto flex gap-4 w-full h-full">
           {numComparesArray.map((_, i) => (
             <CompareSchool

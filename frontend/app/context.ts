@@ -1,4 +1,5 @@
 import { createContext } from "react";
+import type { CourseInfo } from "./queries/queries";
 
 interface SubmittedHomeForm {
   school: string;
@@ -13,7 +14,7 @@ export interface GlobalState {
   home?: SubmittedHomeForm | null;
   abroad?: SubmittedAbroadForm | null;
   userId?: string | null;
-  homeCourses?: string[];
+  homeCourses?: CourseInfo[];
 }
 
 interface GlobalStateContext {

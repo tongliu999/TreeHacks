@@ -3,7 +3,7 @@ import Container from "./Container";
 import { FormInput, FormSelect } from "./form/FormInput";
 import { useContext } from "react";
 import { Context } from "~/context";
-import { useHomeCourseQuery } from "~/queries/queries";
+import { useHomeCourseQuery, type CourseInfo } from "~/queries/queries";
 import IconLoading from "~/assets/icon-loading.svg?react";
 import CourseCard from "./CourseCard";
 import { UNIVERSITY_LIST } from "~/constants";
@@ -35,6 +35,22 @@ export default function SchoolSearch() {
     courseCode: state.home?.courseCode,
   });
 
+  const onBookmark = (course: CourseInfo) => {
+    if (state.homeCourses?.find((c) => c.code === course.code)) {
+      setState({
+        ...state,
+        homeCourses: state.homeCourses?.filter(
+          ({ code }) => code !== course.code
+        ),
+      });
+    } else {
+      setState({
+        ...state,
+        homeCourses: [...(state.homeCourses ?? []), course],
+      });
+    }
+  };
+
   return (
     <FormProvider {...form}>
       <Container className="flex-grow" as="form" onSubmit={onSubmit}>
@@ -65,7 +81,10 @@ export default function SchoolSearch() {
                   key={course.code}
                   course={course}
                   colorIdx={i}
-                  showBookmark={false}
+                  onBookmark={onBookmark}
+                  isBookmarked={state.homeCourses?.some(
+                    (c) => c.code === course.code
+                  )}
                 />
               ))}
             </div>
