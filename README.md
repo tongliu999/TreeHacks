@@ -46,3 +46,9 @@ yarn dev
 10. Select a university under "Compare School"
 11. Review the auto-populated course selection, adjusting them with the course dropdown as necessary
 12. Continue adding schools to compare them with the "+" button
+
+## Gallery
+
+![image](https://github.com/user-attachments/assets/8b2361eb-d9ec-45d2-a8cb-b5c4f1ad14c3)
+![image](https://github.com/user-attachments/assets/6d232453-6df1-4069-b621-50eb20923ed1)
+![image](https://github.com/user-attachments/assets/94153902-8767-4686-9ea1-2a4e46969b37)
