@@ -1,13 +1,12 @@
 import {
   useSavedCourseListQuery,
-  useUniversitiesQuery,
 } from "~/queries/queries";
 import Container from "./Container";
 import { useState } from "react";
 import SavedCourseCard from "./SavedCourseCard";
 import BlankCourseCard from "./BlankCourseCard";
 import SavedDropdownCourseCard from "./SavedDropdownCourseCard";
-
+import { UNIVERSITY_LIST } from "~/constants";
 interface CompareSchoolProps {
   hostSchool: string;
   hostCourseCodes: string[];
@@ -20,7 +19,6 @@ export default function CompareSchool({
 }: CompareSchoolProps) {
   const [selectedSchool, setSelectedSchool] = useState<string>("");
 
-  const { data, isLoading, error } = useUniversitiesQuery();
   const {
     data: courseData,
     isLoading: courseIsLoading,
@@ -53,7 +51,7 @@ export default function CompareSchool({
         onChange={(e) => setSelectedSchool(e.target.value)}
       >
         <option value="">Choose school</option>
-        {data?.map((uni) => (
+        {UNIVERSITY_LIST.map((uni) => (
           <option key={uni} value={uni}>
             {uni}
           </option>
@@ -61,7 +59,13 @@ export default function CompareSchool({
       </select>
       <div className="flex flex-col w-full gap-4">
         {hostCourseCodes.map((course, i) => (
-          <SavedDropdownCourseCard hostCourseCode={course} key={course} i={i} />
+          <SavedDropdownCourseCard
+            hostCourseCode={course}
+            key={course}
+            i={i}
+            hostSchool={hostSchool}
+            abroadSchool={selectedSchool}
+          />
         ))}
         {remainingCourses.map((i) => (
           <BlankCourseCard key={i} />

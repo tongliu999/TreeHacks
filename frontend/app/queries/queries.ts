@@ -87,10 +87,6 @@ const savedCourseListQuery = async ({
   ];
 };
 
-const universitiesQuery = async (): Promise<string[]> => {
-  return ["Hong Kong Polytechnic University", "City University of Hong Kong"];
-};
-
 interface LinkedCourseQueryArgs {
   homeSchool: string;
   abroadSchool: string;
@@ -167,13 +163,6 @@ export const useSavedCourseListQuery = ({
     queryKey: ["savedCourseListQuery", { school }],
     queryFn: async () => savedCourseListQuery({ school: school! }),
     enabled: !!school,
-  });
-};
-
-export const useUniversitiesQuery = () => {
-  return useQuery({
-    queryKey: ["universitiesQuery"],
-    queryFn: universitiesQuery,
   });
 };
 
