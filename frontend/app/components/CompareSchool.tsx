@@ -38,7 +38,7 @@ export default function CompareSchool({
         }}
         className="flex justify-between w-full"
       >
-        <span>Choose school</span>
+        <span>Compare school</span>
         <button onClick={onClose} className="hover:cursor-pointer text-red-600">
           ×
         </button>
