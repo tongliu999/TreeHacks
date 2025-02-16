@@ -1,4 +1,8 @@
+import axios from "axios";
 import { useQuery } from "react-query";
+import { API_ENDPOINT } from "~/constants";
+
+axios.defaults.baseURL = API_ENDPOINT;
 
 export interface CourseInfo {
   title: string;
@@ -19,26 +23,21 @@ const abroadQuery = async ({
   homeCourseCode,
   abroadSchool,
 }: AbroadQueryArgs): Promise<CourseInfo[]> => {
-  return [
-    {
-      title: "PolyU Digital Hardware Systems",
-      code: "COMP 327",
+  const { data } = await axios.post("/course_search", {
+    university: homeSchool,
+    course_code: homeCourseCode,
+    target_school: abroadSchool,
+  });
+  return data.equivalences.map((course: any) =>
+    course.equivalences.map((equivalence: any) => ({
+      title: equivalence.course_name,
+      code: equivalence.course_code,
       credits: 1,
-      description:
-        "This course introduces the basic concepts of digital hardware systems, including combinational and sequential circuits, and the design of digital systems using hardware description languages.",
-      is_bookmarked: false,
-      rating: 4.5,
-    },
-    {
-      title: "PolyU Digital Hardware Systems",
-      code: "COMP 327",
-      credits: 1,
-      description:
-        "This course introduces the basic concepts of digital hardware systems, including combinational and sequential circuits, and the design of digital systems using hardware description languages.",
-      is_bookmarked: false,
-      rating: 9.5,
-    },
-  ];
+      description: equivalence.course_desc,
+      is_bookmarked: false, // TODO: alex needs to add this
+      rating: equivalence.similarity_score, // TODO: alex need sto fix BE here
+    }))
+  );
 };
 
 interface HomeCourseQueryArgs {
