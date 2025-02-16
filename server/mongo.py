@@ -127,6 +127,25 @@ def get_course_info_by_eq_ids(eq_ids):
     print(equivalences)
 
     return equivalences
-    
-    
+
+def get_equivalences_with_favourites(user_id, from_code, from_university, to_university):
+    user_favourites = get_user_favourites(user_id)
+
+    print(user_favourites)
+
+    # Get all equivalences for the given from_code and from_university to to_university
+    equivalence_doc = list(client["course_info"]["equivalences"].find({
+        "from_code": from_code,
+        "from_university": from_university,
+        "to_university": to_university
+    }))[0]
+
+    print(equivalence_doc)
+
+    # Annotate each equivalence with if it is a favourite or not
+    equivalence_doc.pop("_id", None)
+    for equivalence in equivalence_doc["equivalences"]:
+        equivalence["is_favourite"] = equivalence["eq_id"] in user_favourites
+
+    return equivalence_doc
     

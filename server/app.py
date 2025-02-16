@@ -125,5 +125,31 @@ def get_favourites_with_course_info():
     result = user_manager.get_user_favourites_with_course_info(user_id)
     return result
 
+@app.route('/get_equivalences_with_favourites', methods=['GET'])
+def get_equivalences_with_favourites():
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "No data provided"}), 400
+    
+    user_id = data.get('user_id')
+    if not user_id:
+        return jsonify({"error": "User ID is required"}), 400
+    
+    from_code = data.get('from_code')
+    if not from_code:
+        return jsonify({"error": "From code is required"}), 400
+    
+    from_university = data.get('from_university')
+    if not from_university:
+        return jsonify({"error": "From university is required"}), 400
+    
+    to_university = data.get('to_university')
+    if not to_university:
+        return jsonify({"error": "To university is required"}), 400
+    
+    user_manager = UserManager()
+    result = user_manager.get_equivalences_with_favourites(user_id, from_code, from_university, to_university)
+    return jsonify(result)
+
 if __name__ == '__main__':
     app.run(debug=True)
