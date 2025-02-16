@@ -30,20 +30,52 @@ export const CARD_BORDER_COLOURS = [
   "#EAF03E",
 ];
 
-export const UNIVERSITY_LIST = [
-  "University of Waterloo",
-  "University of British Columbia",
-  "Delft University of Technology",
-  "Stanford University",
-  "Australian National University",
-  "ETH Zurich",
-  "National University of Singapore",
-  "Tokyo University",
-  "Hong Kong Polytechnic University",
-  "City University of Hong Kong",
-  "University of Toronto",
-  "Ewha Womans University",
-  "Tsinghua University",
+export type SchoolGroup = {
+  group: string;
+  schools: string[];
+};
+export const UNIVERSITY_GROUP_LIST: (SchoolGroup | string)[] = [
+  {
+    group: "North America",
+    schools: [
+      "McGill University",
+      "Stanford University",
+      "University of British Columbia",
+      "University of Toronto",
+      "University of Calgary",
+      "University of Waterloo",
+    ],
+  },
+  {
+    group: "Europe",
+    schools: ["Cambridge University", "ETH Zurich", "Oxford University"],
+  },
+  {
+    group: "Asia",
+    schools: [
+      "City University of Hong Kong",
+      "Ewha Womans University",
+      "Hong Kong Polytechnic University",
+      "Hong Kong University of Science and Technology",
+      "National University of Singapore",
+      "Tokyo University",
+      "Tsinghua University",
+    ],
+  },
+  {
+    group: "Australia",
+    schools: ["Australian National University", "University of Melbourne"],
+  },
 ];
+
+export const UNIVERSITY_LIST = UNIVERSITY_GROUP_LIST.reduce<string[]>(
+  (acc, group) => {
+    if (typeof group === "string") {
+      return [...acc, group];
+    }
+    return [...acc, ...group.schools];
+  },
+  []
+);
 
 export const NUM_COURSES = 7;
