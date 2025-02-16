@@ -3,8 +3,8 @@ export default function BlankCourseCard() {
     <div
       className="rounded-lg w-full"
       style={{
-        border: "1px solid #CAC4D0",
-        height: "7.5rem",
+        border: "1px dashed #CAC4D0",
+        height: "5.25rem",
       }}
     ></div>
   );

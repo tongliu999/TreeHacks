@@ -38,7 +38,7 @@ export default function SchoolSearch() {
   return (
     <FormProvider {...form}>
       <Container className="flex-grow" as="form" onSubmit={onSubmit}>
-        <div className="flex gap-2 items-end w-full">
+        <div className="flex gap-2 items-end w-full flex-wrap">
           <FormSelect
             name="schoolSearch"
             placeholder="School name"

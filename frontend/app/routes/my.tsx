@@ -63,9 +63,26 @@ export default function Home() {
           courses={data ?? []}
           isLoading={isLoading}
         />
-        {numComparesArray.map((_) => (
-          <CompareSchool hostSchool={school} hostCourseCodes={[]} />
-        ))}
+        <div className="overflow-x-auto flex gap-4 w-full h-full">
+          {numComparesArray.map((_, i) => (
+            <CompareSchool
+              hostSchool={school}
+              hostCourseCodes={[]}
+              key={i}
+              onClose={() => setNumCompares(numCompares - 1)} // this doesn't work and deletes your data
+            />
+          ))}
+          <button
+            type="button"
+            onClick={() => setNumCompares(numCompares + 1)}
+            className="min-w-[3rem] flex items-center justify-center hover:cursor-pointer text-gray-400 border-gray-400"
+            style={{
+              border: "1px dashed",
+            }}
+          >
+            +
+          </button>
+        </div>
       </div>
     </div>
   );

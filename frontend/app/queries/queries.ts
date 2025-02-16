@@ -83,6 +83,28 @@ const universitiesQuery = async (): Promise<string[]> => {
   return ["Hong Kong Polytechnic University", "City University of Hong Kong"];
 };
 
+interface LinkedCourseQueryArgs {
+  homeSchool: string;
+  abroadSchool: string;
+  homeCourseCodes: string[];
+}
+const linkedCourseQuery = async ({
+  homeSchool,
+  abroadSchool,
+  homeCourseCodes,
+}: LinkedCourseQueryArgs): Promise<CourseInfo[]> => {
+  return [
+    {
+      title: "Digital Hardware Systems",
+      code: "ECE 327",
+      credits: 1,
+      description:
+        "This course introduces the basic concepts of digital hardware systems, including combinational and sequential circuits, and the design of digital systems using hardware description languages.",
+      is_bookmarked: false,
+    },
+  ];
+};
+
 // hooks go here
 
 export const useAbroadQuery = ({
@@ -144,5 +166,29 @@ export const useUniversitiesQuery = () => {
   return useQuery({
     queryKey: ["universitiesQuery"],
     queryFn: universitiesQuery,
+  });
+};
+
+export const useLinkedCourseQuery = ({
+  homeSchool,
+  abroadSchool,
+  homeCourseCodes,
+}: Partial<LinkedCourseQueryArgs>) => {
+  return useQuery({
+    queryKey: [
+      "linkedCourseQuery",
+      {
+        homeSchool,
+        abroadSchool,
+        homeCourseCodes,
+      },
+    ],
+    queryFn: async () =>
+      linkedCourseQuery({
+        homeSchool: homeSchool!,
+        abroadSchool: abroadSchool!,
+        homeCourseCodes: homeCourseCodes!,
+      }),
+    enabled: !!homeSchool && !!abroadSchool && !!homeCourseCodes?.length,
   });
 };
