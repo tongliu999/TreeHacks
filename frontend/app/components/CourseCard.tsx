@@ -6,11 +6,15 @@ interface CourseCardProps {
   course: CourseInfo;
   colorIdx: number;
   isBookmarked?: boolean;
+  showBookmark?: boolean;
+  onBookmark?: () => void;
 }
 export default function CourseCard({
   course: { code, title, credits, description, rating },
   colorIdx,
   isBookmarked,
+  onBookmark,
+  showBookmark = true,
 }: CourseCardProps) {
   const bgColor = CARD_COLOURS[colorIdx % CARD_COLOURS.length];
   return (
@@ -38,13 +42,15 @@ export default function CourseCard({
           </span>
         </div>
         <div>
-          <button className="flex gap-2">
+          {showBookmark && (
+            <button className="flex gap-2" onClick={onBookmark}>
             <LogoBookmark
               className={`text-black hover:cursor-pointer hover:fill-current ${
                 isBookmarked && "fill-current"
               }`}
-            />
-          </button>
+              />
+            </button>
+          )}
         </div>
       </div>
       <p className="text-[#9E9E9E]">{code}</p>

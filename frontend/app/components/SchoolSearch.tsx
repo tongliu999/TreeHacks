@@ -61,7 +61,12 @@ export default function SchoolSearch() {
             <h2>Courses offered at school {state.home?.school}</h2>
             <div className="w-full gap-4 flex flex-col">
               {data.map((course, i) => (
-                <CourseCard key={course.code} course={course} colorIdx={i} />
+                <CourseCard
+                  key={course.code}
+                  course={course}
+                  colorIdx={i}
+                  showBookmark={false}
+                />
               ))}
             </div>
           </div>
