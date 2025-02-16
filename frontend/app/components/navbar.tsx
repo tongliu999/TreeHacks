@@ -34,7 +34,7 @@ export default function Navbar() {
           className="flex gap-2 text-[18px] items-center hover:brightness-80"
         >
           <LogoBookmark className="text-white" />
-          My courses
+          My Courses
         </Link>
         <button
           onClick={() => {
