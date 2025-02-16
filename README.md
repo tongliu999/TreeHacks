@@ -1,23 +1,29 @@
-# Poof
+# Poof!
 
-Find equivalent courses at exchange universities by entering course codes from your host university
+Find equivalent courses at exchange host universities by entering your course codes from home.
 
-![image](https://github.com/user-attachments/assets/e5450dab-6b46-4bae-84f9-cbe4ab671f88)
+[![Demo](https://github.com/user-attachments/assets/e5450dab-6b46-4bae-84f9-cbe4ab671f88)](https://youtu.be/Fk0n4rqkcy8)
+
+[Demo video: https://youtu.be/Fk0n4rqkcy8](https://youtu.be/Fk0n4rqkcy8)
+
+Devpost: https://devpost.com/software/poof-3qshno
 
 ## Setup
 
-Change the database URL in `server/mongo.py`.
+Change the database URL in `server/mongo.py` to your own MongoDB URL.
 
-Add `server/.env`:
+Add `server/.env` and populate it with your perplexity API key and MongoDB password:
 
 ```
 PERPLEXITY_KEY=pplx-
-MONGO_PASSWORD=
+MONGO_PASSWORD=ABC
 ```
 
 Install Python dependencies and start the server:
 
 ```
+python -m venv venv
+source venv/bin/activate
 pip install -r requirements.txt
 python app.py
 ```
@@ -28,6 +34,10 @@ Run the frontend in `frontend`:
 yarn
 yarn dev
 ```
+
+(if you're using npm, you may have to force install)
+
+Other README can be found in the frontend and server folders.
 
 ## Usage
 
