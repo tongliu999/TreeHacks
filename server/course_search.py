@@ -107,6 +107,7 @@ class CourseSearch:
                     "- course_name: the name of the course"
                     "- university: the university the course is from"
                     "- course_desc: a quick description of the course"
+                    "- similarity_score: how similar the course is to the given course from 1 - 20 and no decimals"
                 ),
             },
             {   
