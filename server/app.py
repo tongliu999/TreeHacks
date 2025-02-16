@@ -27,7 +27,7 @@ def course_search():
     course_search = CourseSearch()
     result = course_search.course_finder(course_code, university, target_school=target_school, num=5)
     
-    return jsonify(result)
+    return result
 
 if __name__ == '__main__':
     ping()

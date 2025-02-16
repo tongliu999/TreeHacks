@@ -2,7 +2,9 @@ from openai import OpenAI
 import os
 from dotenv import load_dotenv
 import json
-from mongo import save_course_info, get_course_info
+from mongo import save_course_info, get_course_info, save_equivalences, get_equivalences
+from utils import fill_equivalence_ids, package_equivalences
+
 class CourseSearch:
     def __init__(self):
         load_dotenv()
@@ -71,7 +73,6 @@ class CourseSearch:
         )
 
         content = response.choices[0].message.content
-        print(content)
 
         try:
             course_info = json.loads(content)
@@ -83,6 +84,16 @@ class CourseSearch:
         return course_info
 
     def get_similar(self, course_code, university, num, target_school):
+        equivalences = get_equivalences(course_code, university, target_school)
+        if equivalences:
+            # Repackage the data to remove MongoDB ObjectId
+            return {
+                'from_code': equivalences['from_code'],
+                'from_university': equivalences['from_university'],
+                'to_university': equivalences['to_university'],
+                'equivalences': equivalences['equivalences']
+            }
+
         course_info = self.get_course_desc(course_code, university)
         course_desc = course_info["course_desc"]
 
@@ -112,15 +123,27 @@ class CourseSearch:
             messages=messages,
         )
 
-        return response
+        content = response.choices[0].message.content
+
+        try:
+            equivalences = json.loads(content)
+            equivalences = fill_equivalence_ids(equivalences)
+            packaged_equivalences = package_equivalences(course_code, university, target_school, equivalences)
+        except json.JSONDecodeError:
+            raise ValueError("Failed to parse response as JSON")
+
+        save_equivalences(packaged_equivalences)
+        # Again, remove the MongoDB ObjectId, because i guess the adding it retroactively updates the objcet and adds an ID
+        return {
+            'from_code': packaged_equivalences['from_code'],
+            'from_university': packaged_equivalences['from_university'],
+            'to_university': packaged_equivalences['to_university'],
+            'equivalences': packaged_equivalences['equivalences']
+        }
         
     def course_finder(self, course_code, university, num = 1, target_school = "all universities"):
         res = self.get_similar(course_code, university, num, target_school)
-        output = res.choices[0].message.content
-        try:
-            return json.loads(output)
-        except json.JSONDecodeError:
-            raise ValueError("Failed to parse response as JSON")
+        return res
 
 if __name__ == "__main__":
     # Example usage
