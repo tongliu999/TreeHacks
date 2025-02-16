@@ -4,6 +4,7 @@ import { useState } from "react";
 import BlankCourseCard from "./BlankCourseCard";
 import SavedDropdownCourseCard from "./SavedDropdownCourseCard";
 import { NUM_COURSES, UNIVERSITY_LIST } from "~/constants";
+import EmailPopup from "./EmailPopup";
 interface CompareSchoolProps {
   hostSchool: string;
   hostCourseCodes: string[];
@@ -15,7 +16,7 @@ export default function CompareSchool({
   onClose,
 }: CompareSchoolProps) {
   const [selectedSchool, setSelectedSchool] = useState<string>("");
-
+  const [showEmailPopup, setShowEmailPopup] = useState(false);
   const {
     data: courseData,
     isLoading: courseIsLoading,
@@ -54,6 +55,27 @@ export default function CompareSchool({
           </option>
         ))}
       </select>
+      <button
+        className="cta-button w-full"
+        onClick={() => setShowEmailPopup(true)}
+      >
+        Generate Email Template
+      </button>
+      {showEmailPopup && (
+        <EmailPopup
+          subject={`Course equivalence request for ${selectedSchool}`}
+          body={`Dear Academic Advisor,
+
+I am writing to request course equivalence approval for the following courses at ${selectedSchool}:
+
+${hostCourseCodes.join('\n')}
+
+Thank you for your time.
+
+Best regards,`}
+          onClose={() => setShowEmailPopup(false)}
+        />
+      )}
       <div className="flex flex-col w-full gap-4">
         {hostCourseCodes.map((course, i) => (
           <SavedDropdownCourseCard
