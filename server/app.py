@@ -55,6 +55,7 @@ def course_search():
     course_search = CourseSearch()
     course_search.course_finder(from_code, from_university, target_school=to_university, num=5)
 
+
     user_manager = UserManager()
     result = user_manager.get_equivalences_with_favourites(user_id, from_code, from_university, to_university)
     return jsonify(result)

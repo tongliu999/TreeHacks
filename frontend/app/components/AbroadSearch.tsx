@@ -1,10 +1,10 @@
 import { FormProvider, useForm } from "react-hook-form";
 import Container from "./Container";
 import { FormSelect } from "./form/FormInput";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Context } from "~/context";
 import LogoLeftArrow from "~/assets/logo-leftarrow.svg?react";
-import { useAbroadQuery } from "~/queries/queries";
+import { useAbroadQuery, addFavouriteEquivalence, removeFavouriteEquivalence } from "~/queries/queries";
 import CourseCard from "./CourseCard";
 import { UNIVERSITY_LIST } from "~/constants";
 import IconLoading from "~/assets/icon-loading.svg?react";
@@ -15,6 +15,7 @@ interface TFormValues {
 export default function AbroadSearch() {
   const form = useForm<TFormValues>();
   const { state, setState } = useContext(Context);
+  const [bookmarkedCourses, setBookmarkedCourses] = useState<string[]>([]);
 
   const onSubmit = form.handleSubmit((data) => {
     setState({
@@ -25,11 +26,37 @@ export default function AbroadSearch() {
     });
   });
 
+  const handleBookmark = async (courseCode: string, eqId: string) => {
+    try {
+      if (!bookmarkedCourses.includes(courseCode)) {
+        await addFavouriteEquivalence(eqId, state.userId!);
+      } else {
+        await removeFavouriteEquivalence(eqId, state.userId!);
+      }
+      setBookmarkedCourses(prev => 
+        prev.includes(courseCode)
+          ? prev.filter(code => code !== courseCode)
+          : [...prev, courseCode]
+      );
+    } catch (error) {
+      console.error('Error updating bookmark:', error);
+    }
+  };
+
   const { data, isLoading, error } = useAbroadQuery({
     homeSchool: state.home?.school,
     homeCourseCode: state.home?.courseCode,
     abroadSchool: state.abroad?.school,
   });
+
+  useEffect(() => {
+    if (data) {
+      const initialBookmarkedCourses = data
+        .filter(course => course.is_bookmarked)
+        .map(course => course.code);
+      setBookmarkedCourses(initialBookmarkedCourses);
+    }
+  }, [data]);
 
   return (
     <FormProvider {...form}>
@@ -68,7 +95,14 @@ export default function AbroadSearch() {
             <h2>Courses offered at school {state.abroad?.school}</h2>
             <div className="w-full gap-4 flex flex-col">
               {data.map((course, i) => (
-                <CourseCard key={course.code} course={course} colorIdx={i} />
+                <CourseCard
+                  key={course.code}
+                  course={course}
+                  colorIdx={i}
+                  showBookmark={true}
+                  onBookmark={() => handleBookmark(course.code, course.eq_id!)}
+                  isBookmarked={bookmarkedCourses.includes(course.code)}
+                />
               ))}
             </div>
           </div>

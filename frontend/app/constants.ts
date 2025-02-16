@@ -32,10 +32,11 @@ export const CARD_BORDER_COLOURS = [
 
 export const UNIVERSITY_LIST = [
   "University of Waterloo",
+  "University of British Columbia",
   "Delft University of Technology",
   "Stanford University",
   "Australian National University",
   "ETH Zurich",
   "National University of Singapore",
-  "Kyoto University",
+  "Tokyo University",
 ];

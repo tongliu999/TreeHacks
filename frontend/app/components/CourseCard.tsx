@@ -43,11 +43,11 @@ export default function CourseCard({
         <div>
           <button className="flex gap-2" onClick={() => onBookmark?.(course)}>
             <LogoBookmark
-              className={`text-black hover:cursor-pointer hover:fill-red-500 ${
-                isBookmarked && "fill-current"
+              className={`text-black hover:cursor-pointer ${
+                isBookmarked ? "fill-current" : "hover:fill-[#9E9E9E]"
               }`}
             />
-          </button>
+            </button>
         </div>
       </div>
       <p className="text-[#9E9E9E]">{code}</p>

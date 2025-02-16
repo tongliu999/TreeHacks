@@ -142,8 +142,6 @@ def get_equivalences_with_favourites(user_id, from_code, from_university, to_uni
         "to_university": to_university
     }))[0]
 
-    print(equivalence_doc)
-
     # Annotate each equivalence with if it is a favourite or not
     equivalence_doc.pop("_id", None)
     for equivalence in equivalence_doc["equivalences"]:

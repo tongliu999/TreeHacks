@@ -13,6 +13,7 @@ export interface CourseInfo {
   is_bookmarked: boolean;
   description?: string;
   rating?: number;
+  eq_id?: string;
 }
 
 interface AbroadQueryArgs {
@@ -38,8 +39,9 @@ const abroadQuery = async ({
     code: course.course_code,
     credits: 1,
     description: course.course_desc,
-    is_bookmarked: false, // TODO: alex needs to add this
-    rating: course.similarity_score, // TODO: alex need sto fix BE here
+    is_bookmarked: course.is_favourite,
+    rating: course.similarity_score,
+    eq_id: course.eq_id,
   }));
 };
 
@@ -173,4 +175,22 @@ export const useLinkedCourseQuery = ({
       }),
     enabled: !!homeSchool && !!abroadSchool && !!homeCourseCodes?.length,
   });
+};
+
+export const addFavouriteEquivalence = async (equivalenceId: string, userId: string) => {
+  console.log("adding favourite", equivalenceId, userId);
+  const { data } = await axios.post("/add_favourite", {
+    eq_id: equivalenceId,
+    user_id: userId,
+  });
+  console.log("added favourite", data);
+};
+
+export const removeFavouriteEquivalence = async (equivalenceId: string, userId: string) => {
+  console.log("removing favourite", equivalenceId, userId);
+  const { data } = await axios.post("/remove_favourite", {
+    eq_id: equivalenceId,
+    user_id: userId,
+  });
+  console.log("removed favourite", data);
 };
