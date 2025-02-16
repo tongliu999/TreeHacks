@@ -6,8 +6,13 @@ export default function Navbar() {
   return (
     <nav className="flex justify-between items-center p-3 px-6 bg-nav text-white font-semibold text-xl">
       <div className="flex items-center gap-2">
-        <LogoGlobe />
-        <p>Poof</p>
+        <a
+          href="/"
+          className="flex gap-2 text-[18px] items-center hover:brightness-80"
+        >
+          <LogoGlobe />
+          <p>Poof</p>
+        </a>
       </div>
       <div className="flex items-center gap-10">
         <a
