@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { CARD_BORDER_COLOURS } from "~/constants";
 import { useAbroadQuery, type CourseInfo } from "~/queries/queries";
 import IconLoading from "~/assets/icon-loading.svg?react";
+import IconStar from "~/assets/icon-star.svg?react";
 
 export default function SavedDropdownCourseCard({
   hostCourseCode,
@@ -49,23 +50,30 @@ export default function SavedDropdownCourseCard({
             value={course.code}
             onClick={() => setSelectedCourse(course)}
           >
-            {course.title} ({course.code})
+            {course.is_bookmarked && "⭐"} {course.title} ({course.code})
           </option>
         ))}
       </select>
       {isLoading && <IconLoading style={{ color: "black" }} />}
       {!isLoading && data?.length && !error ? (
         <>
-          <div className="flex gap-1 flex-col w-full h-full">
-            <div className="flex justify-between items-center h-full">
-              <strong className="font-semibold">{selectedCourse?.title}</strong>
-              <em className="italic text-[#9E9E9E]">
-                {selectedCourse?.credits} credit(s)
-              </em>
+          <div className="flex gap-1 w-full">
+            <div className="flex gap-1 flex-col w-full h-full">
+              <div className="flex justify-between items-center h-full">
+                <strong className="font-semibold flex gap-2">
+                  {selectedCourse?.title}
+                  {selectedCourse?.is_bookmarked && (
+                    <IconStar className="w-5 h-5 fill-yellow-500" />
+                  )}
+                </strong>
+                <em className="italic text-[#9E9E9E]">
+                  {selectedCourse?.credits} credit(s)
+                </em>
+              </div>
+              <p className="text-[#9E9E9E]">{selectedCourse?.code}</p>
             </div>
-            <p className="text-[#9E9E9E]">{selectedCourse?.code}</p>
+            <div>▼</div>
           </div>
-          <div>▼</div>
         </>
       ) : (
         !isLoading && (

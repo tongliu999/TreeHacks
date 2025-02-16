@@ -4,7 +4,11 @@ import { FormSelect } from "./form/FormInput";
 import { useContext, useEffect, useState } from "react";
 import { Context } from "~/context";
 import LogoLeftArrow from "~/assets/logo-leftarrow.svg?react";
-import { useAbroadQuery, addFavouriteEquivalence, removeFavouriteEquivalence } from "~/queries/queries";
+import {
+  useAbroadQuery,
+  addFavouriteEquivalence,
+  removeFavouriteEquivalence,
+} from "~/queries/queries";
 import CourseCard from "./CourseCard";
 import { UNIVERSITY_LIST } from "~/constants";
 import IconLoading from "~/assets/icon-loading.svg?react";
@@ -33,13 +37,13 @@ export default function AbroadSearch() {
       } else {
         await removeFavouriteEquivalence(eqId, state.userId!);
       }
-      setBookmarkedCourses(prev => 
+      setBookmarkedCourses((prev) =>
         prev.includes(courseCode)
-          ? prev.filter(code => code !== courseCode)
+          ? prev.filter((code) => code !== courseCode)
           : [...prev, courseCode]
       );
     } catch (error) {
-      console.error('Error updating bookmark:', error);
+      console.error("Error updating bookmark:", error);
     }
   };
 
@@ -52,8 +56,8 @@ export default function AbroadSearch() {
   useEffect(() => {
     if (data) {
       const initialBookmarkedCourses = data
-        .filter(course => course.is_bookmarked)
-        .map(course => course.code);
+        .filter((course) => course.is_bookmarked)
+        .map((course) => course.code);
       setBookmarkedCourses(initialBookmarkedCourses);
     }
   }, [data]);
@@ -99,7 +103,6 @@ export default function AbroadSearch() {
                   key={course.code}
                   course={course}
                   colorIdx={i}
-                  showBookmark={true}
                   onBookmark={() => handleBookmark(course.code, course.eq_id!)}
                   isBookmarked={bookmarkedCourses.includes(course.code)}
                 />
