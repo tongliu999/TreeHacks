@@ -34,20 +34,28 @@ def course_search():
     if not data:
         return jsonify({"error": "No data provided"}), 400
     
-    university = data.get('university')
-    if not university:
-        return jsonify({"error": "University is required"}), 400
+    from_university = data.get('from_university')
+    if not from_university:
+        return jsonify({"error": "From university is required"}), 400
         
-    course_code = data.get('course_code')
-    if not course_code:
-        return jsonify({"error": "Course code is required"}), 400
+    from_code = data.get('from_code')
+    if not from_code:
+        return jsonify({"error": "From code is required"}), 400
+    
+    user_id = data.get('user_id')
+    if not user_id:
+        return jsonify({"error": "User ID is required"}), 400
         
-    target_school = data.get('target_school', 'Stanford University')
+    to_university = data.get('to_university')
+    if not to_university:
+        return jsonify({"error": "To university is required"}), 400
     
     course_search = CourseSearch()
-    result = course_search.course_finder(course_code, university, target_school=target_school, num=2)
-    
-    return result
+    course_search.course_finder(from_code, from_university, target_school=to_university, num=5)
+
+    user_manager = UserManager()
+    result = user_manager.get_equivalences_with_favourites(user_id, from_code, from_university, to_university)
+    return jsonify(result)
 
 # Gets the search course info, and annotate with whether it is a favourite or not
 @app.route('/get_user_courses', methods=['POST'])
