@@ -150,3 +150,4 @@ if __name__ == "__main__":
     course_search = CourseSearch()
     course_search.course_finder("ECE358", "University of Waterloo", 5)
     # course_search.get_eligible_universities("University of waterloo", ["China", "Japan", "Netherlands"])
+    

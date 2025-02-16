@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request
-from courseSearch import CourseSearch
+from course_search import CourseSearch
 from mongo import ping
 
 app = Flask(__name__)
