@@ -2,7 +2,7 @@ from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 from dotenv import load_dotenv
 import os
-from utils import package_equivalences
+
 load_dotenv()
 
 uri = f"mongodb+srv://admin:{os.getenv('MONGO_PASSWORD')}@treehacks.bnziq.mongodb.net/?retryWrites=true&w=majority&appName=treehacks"
@@ -73,3 +73,40 @@ def get_equivalences(from_code, from_university, to_university):
     except Exception as e:
         print(f"Error retrieving equivalences: {str(e)}")
         return None
+    
+def add_user_favourite(user_id, from_code, from_university, to_university, eq_id):
+    try:
+        # Create a single favorite document
+        favorite = {
+            "user_id": user_id,
+            "from_code": from_code,
+            "from_university": from_university,
+            "to_university": to_university,
+            "equivalence_id": eq_id,
+        }
+        
+        result = client["user_info"]["favorites"].insert_one(favorite)
+        return result.inserted_id
+    except Exception as e:
+        print(f"Error adding user favourite: {str(e)}")
+        return None
+    
+def remove_user_favourite(user_id, from_code, from_university, to_university):
+    try:
+        result = client["user_info"]["favorites"].delete_one({"user_id": user_id, "from_code": from_code, "from_university": from_university, "to_university": to_university})
+        if result.deleted_count > 0:
+            print(f"Successfully removed favourite for user {user_id}, course {from_code} at {from_university} to {to_university}")
+        else:
+            print(f"No favourite found to remove for user {user_id}, course {from_code} at {from_university} to {to_university}")
+    except Exception as e:
+        print(f"Error removing user favourite: {str(e)}")
+        return None
+
+def get_user_favourites(user_id, from_code, from_university, to_university):
+    try:
+        return list(client["user_info"]["favorites"].find({"user_id": user_id, "from_code": from_code, "from_university": from_university, "to_university": to_university}))
+    except Exception as e:
+        print(f"Error getting user favourites: {str(e)}")
+        return None
+    
+    
