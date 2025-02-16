@@ -9,12 +9,18 @@ export default function Navbar() {
         <LogoGlobe />
         <p>Poof</p>
       </div>
-      <div className="flex items-center gap-6">
-        <button className="flex gap-2">
-          <LogoBookmark />
+      <div className="flex items-center gap-10">
+        <a
+          href="/my"
+          className="flex gap-2 text-[18px] items-center hover:brightness-80"
+        >
+          <LogoBookmark className="text-white" />
           My courses
+        </a>
+        <button className="flex gap-2 text-[18px] items-center">
+          <LogoAccount />
+          Hello, Eggy!
         </button>
-        <LogoAccount />
       </div>
     </nav>
   );

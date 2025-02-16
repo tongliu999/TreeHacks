@@ -6,19 +6,19 @@ import AbroadSearch from "~/components/AbroadSearch";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "New React Router App" },
-    { name: "description", content: "Welcome to React Router!" },
+    { title: "Browse | Poof!" },
+    { name: "", content: "Find equivalent courses" },
   ];
 }
 
 export default function Home() {
   return (
-    <div className="flex gap-4 flex-wrap flex-grow w-full h-full">
-      <div className="flex-grow gap-2 flex-col flex h-full grow-1">
+    <div className="flex gap-4 sm:flex-wrap md:flex-nowrap flex-grow w-full h-full">
+      <div className="flex-grow gap-2 flex-col flex h-full grow-1 md:w-[40%]">
         <h1>Your School</h1>
         <SchoolSearch />
       </div>
-      <div className="flex-grow gap-2 flex-col flex h-full grow-4">
+      <div className="flex-grow gap-2 flex-col flex h-full grow-3 md:w-[60%]">
         <h1>Schools Abroad</h1>
         <AbroadSearch />
       </div>

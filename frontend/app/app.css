@@ -18,7 +18,7 @@ body {
   --bg-nav-hover-color: #312CCD;
 
   height: 100%;
-  
+
 }
 
 .bg-nav {
@@ -27,6 +27,11 @@ body {
 
 h1 {
   font-size: 32px;
+  @apply font-semibold;
+}
+
+h2 {
+  font-size: 20px;
   @apply font-semibold;
 }
 

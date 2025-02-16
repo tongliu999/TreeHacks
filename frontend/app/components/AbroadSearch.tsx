@@ -4,8 +4,8 @@ import FormInput from "./form/FormInput";
 import { useContext } from "react";
 import { Context } from "~/context";
 import LogoLeftArrow from "~/assets/logo-leftarrow.svg?react";
-import { useQuery } from "react-query";
-import { abroadQuery } from "~/queries/queries";
+import { useAbroadQuery } from "~/queries/queries";
+import CourseCard from "./CourseCard";
 
 interface TFormValues {
   abroadSchoolSearch: string;
@@ -23,23 +23,12 @@ export default function AbroadSearch() {
     });
   });
 
-  const { data, isLoading, error } = useQuery({
-    queryKey: [
-      "abroadQuery",
-      {
-        homeSchool: state.home?.school,
-        homeCourseCode: state.home?.courseCode,
-        abroadSchool: state.abroad?.school,
-      },
-    ],
-    queryFn: async () =>
-      abroadQuery({
-        homeSchool: state.home?.school!, // true because of enabled
-        homeCourseCode: state.home?.courseCode!,
-        abroadSchool: state.abroad?.school!,
-      }),
-    enabled: !!state.home && !!state.abroad,
+  const { data, isLoading, error } = useAbroadQuery({
+    homeSchool: state.home?.school,
+    homeCourseCode: state.home?.courseCode,
+    abroadSchool: state.abroad?.school,
   });
+
   return (
     <FormProvider {...form}>
       <Container
@@ -71,7 +60,16 @@ export default function AbroadSearch() {
             <p className="text-3xl font-semibold">Please select a course</p>
           </div>
         )}
-        {state.home && <div>results</div>}
+        {state.home && data && (
+          <div className="flex flex-col gap-2 pt-4 pb-2">
+            <h2>Courses offered at school {state.abroad?.school}</h2>
+            <div className="w-full gap-4 flex flex-col">
+              {data.map((course, i) => (
+                <CourseCard key={course.code} course={course} colorIdx={i} />
+              ))}
+            </div>
+          </div>
+        )}
       </Container>
     </FormProvider>
   );

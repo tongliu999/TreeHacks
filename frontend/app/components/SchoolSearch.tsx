@@ -3,6 +3,9 @@ import Container from "./Container";
 import FormInput from "./form/FormInput";
 import { useContext } from "react";
 import { Context } from "~/context";
+import { useHomeCourseQuery } from "~/queries/queries";
+import IconLoading from "~/assets/icon-loading.svg?react";
+import CourseCard from "./CourseCard";
 
 interface TFormValues {
   schoolSearch: string;
@@ -26,6 +29,11 @@ export default function SchoolSearch() {
     });
   });
 
+  const { data, isLoading, error } = useHomeCourseQuery({
+    school: state.home?.school,
+    courseCode: state.home?.courseCode,
+  });
+
   return (
     <FormProvider {...form}>
       <Container className="flex-grow" as="form" onSubmit={onSubmit}>
@@ -43,9 +51,19 @@ export default function SchoolSearch() {
             containerProps={{ className: "flex-grow" }}
           />
           <button type="submit" className="cta-button h-min">
-            Search
+            {isLoading ? <IconLoading /> : "Search"}
           </button>
         </div>
+        {state.home && data && (
+          <div className="flex flex-col gap-2 pt-4 pb-2">
+            <h2>Courses offered at school {state.home?.school}</h2>
+            <div className="w-full gap-4 flex flex-col">
+              {data.map((course, i) => (
+                <CourseCard key={course.code} course={course} colorIdx={i} />
+              ))}
+            </div>
+          </div>
+        )}
       </Container>
     </FormProvider>
   );
