@@ -26,7 +26,7 @@ export default function CompareSchool({
   });
 
   const remainingCourses = Array.from(
-    { length: Math.max(0, 6 - (courseData?.length ?? 0)) },
+    { length: Math.max(0, 6 - (hostCourseCodes?.length ?? 0)) },
     (_, i) => i
   );
 

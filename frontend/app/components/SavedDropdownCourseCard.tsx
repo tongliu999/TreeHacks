@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CARD_BORDER_COLOURS } from "~/constants";
 import { useAbroadQuery, type CourseInfo } from "~/queries/queries";
 import IconLoading from "~/assets/icon-loading.svg?react";
@@ -23,6 +23,10 @@ export default function SavedDropdownCourseCard({
     abroadSchool,
   });
 
+  useEffect(() => {
+    setSelectedCourse(data?.[0] ?? null);
+  }, [data]);
+
   return (
     <label
       className={`p-4 pr-2 flex relative items-center justify-center gap-6 rounded-lg w-full h-[5.25rem] ${
@@ -35,7 +39,10 @@ export default function SavedDropdownCourseCard({
         background: isLoading || !data ? "#F3F4F6" : "white",
       }}
     >
-      <select className="absolute inset-0 opacity-0 w-full h-full">
+      <select
+        className="absolute inset-0 opacity-0 w-full h-full"
+        value={(selectedCourse?.code || data?.[0]?.code) ?? ""}
+      >
         {data?.map((course) => (
           <option
             key={course.code}
@@ -47,7 +54,7 @@ export default function SavedDropdownCourseCard({
         ))}
       </select>
       {isLoading && <IconLoading style={{ color: "black" }} />}
-      {!isLoading && (
+      {!isLoading && data?.length && !error ? (
         <>
           <div className="flex gap-1 flex-col w-full h-full">
             <div className="flex justify-between items-center h-full">
@@ -60,6 +67,10 @@ export default function SavedDropdownCourseCard({
           </div>
           <div>▼</div>
         </>
+      ) : (
+        !isLoading && (
+          <p className="italic bg-[#9E9E9E]">No course equivalencies found</p>
+        )
       )}
     </label>
   );
