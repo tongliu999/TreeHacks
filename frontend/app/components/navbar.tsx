@@ -7,7 +7,7 @@ export default function Navbar() {
     <nav className="flex justify-between items-center p-3 px-6 bg-nav text-white font-semibold text-xl">
       <div className="flex items-center gap-2">
         <LogoGlobe />
-        <p>Exchange Tool</p>
+        <p>Poof</p>
       </div>
       <div className="flex items-center gap-6">
         <button className="flex gap-2">
