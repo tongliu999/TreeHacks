@@ -1,11 +1,12 @@
 import { Form, FormProvider, useForm } from "react-hook-form";
 import Container from "./Container";
-import FormInput from "./form/FormInput";
+import { FormInput, FormSelect } from "./form/FormInput";
 import { useContext } from "react";
 import { Context } from "~/context";
 import { useHomeCourseQuery } from "~/queries/queries";
 import IconLoading from "~/assets/icon-loading.svg?react";
 import CourseCard from "./CourseCard";
+import { UNIVERSITY_LIST } from "~/constants";
 
 interface TFormValues {
   schoolSearch: string;
@@ -38,10 +39,11 @@ export default function SchoolSearch() {
     <FormProvider {...form}>
       <Container className="flex-grow" as="form" onSubmit={onSubmit}>
         <div className="flex gap-2 items-end w-full">
-          <FormInput
+          <FormSelect
             name="schoolSearch"
             placeholder="School name"
             label="Which school do you attend?"
+            options={UNIVERSITY_LIST}
             containerProps={{ className: "flex-grow" }}
           />
           <FormInput

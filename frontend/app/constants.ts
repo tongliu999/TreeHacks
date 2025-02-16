@@ -29,3 +29,12 @@ export const CARD_BORDER_COLOURS = [
   "#41BDFF",
   "#EAF03E",
 ];
+
+export const UNIVERSITY_LIST = [
+  "University of Waterloo",
+  "Stanford University",
+  "Australian National University",
+  "ETH Zurich",
+  "National University of Singapore",
+  "Kyoto University"
+]

@@ -1,6 +1,6 @@
 import { FormProvider, useForm } from "react-hook-form";
 import Container from "./Container";
-import FormInput from "./form/FormInput";
+import { FormInput } from "./form/FormInput";
 import { useContext } from "react";
 import { Context } from "~/context";
 import LogoLeftArrow from "~/assets/logo-leftarrow.svg?react";
