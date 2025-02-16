@@ -36,14 +36,17 @@ export type SchoolGroup = {
 };
 export const UNIVERSITY_GROUP_LIST: (SchoolGroup | string)[] = [
   {
+    group: "TreeHacks",
+    schools: ["University of Waterloo", "Stanford University"],
+  },
+  {
     group: "North America",
     schools: [
+      "Harvard University",
+      "Massachusetts Institute of Technology",
       "McGill University",
-      "Stanford University",
       "University of British Columbia",
       "University of Toronto",
-      "University of Calgary",
-      "University of Waterloo",
     ],
   },
   {

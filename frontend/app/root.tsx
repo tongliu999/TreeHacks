@@ -37,14 +37,19 @@ export function Layout({ children }: { children: React.ReactNode }) {
     homeCourses: [],
   });
 
+  // run once on mount
   useEffect(() => {
     const userId = localStorage.getItem("userId");
     const homeCourses = localStorage.getItem("homeCourses");
+    const home = localStorage.getItem("home");
     if (userId) {
       setState((state) => ({ ...state, userId }));
     }
     if (homeCourses) {
       setState((state) => ({ ...state, homeCourses: JSON.parse(homeCourses) }));
+    }
+    if (home) {
+      setState((state) => ({ ...state, home: JSON.parse(home) }));
     }
   });
   return (
