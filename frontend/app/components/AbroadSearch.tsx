@@ -21,16 +21,14 @@ export default function AbroadSearch() {
   const { state, setState } = useContext(Context);
   const [bookmarkedCourses, setBookmarkedCourses] = useState<string[]>([]);
 
-  const abroadSchoolSearch = form.watch("abroadSchoolSearch");
-  useEffect(() => {
-    // this is okay only if we have a select instead of an input
+  const onSubmit = form.handleSubmit((data: TFormValues) => {
     setState({
       ...state,
       abroad: {
-        school: abroadSchoolSearch,
+        school: data.abroadSchoolSearch,
       },
     });
-  }, [abroadSchoolSearch]);
+  });
 
   const handleBookmark = async (courseCode: string, eqId: string) => {
     try {
@@ -69,6 +67,7 @@ export default function AbroadSearch() {
       <Container
         className="flex-grow flex-col items-start h-full w-full"
         as="form"
+        onSubmit={onSubmit}
       >
         <div className="flex gap-2 items-end w-full">
           <FormSelect
@@ -81,6 +80,13 @@ export default function AbroadSearch() {
               className: "flex-grow",
             }}
           />
+          <button
+            type="submit"
+            className="cta-button h-min"
+            disabled={!state.home}
+          >
+            {isLoading ? <IconLoading /> : "Find Courses"}
+          </button>
         </div>
         {!state.home && (
           <div className="flex items-center gap-2 flex-col w-full h-full text-[#9E9E9E] justify-center">
@@ -88,11 +94,11 @@ export default function AbroadSearch() {
             <p className="text-3xl font-semibold">Please select a course</p>
           </div>
         )}
-        {isLoading ? (
+        {/* {isLoading ? (
           <div className="flex w-full justify-center p-4">
             <IconLoading style={{ color: "black" }} />
           </div>
-        ) : null}
+        ) : null} */}
         {state.home && data && (
           <div className="flex flex-col gap-2 pt-4 pb-2">
             <h2>Courses offered at school {state.abroad?.school}</h2>
