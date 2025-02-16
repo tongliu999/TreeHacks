@@ -51,7 +51,12 @@ export const UNIVERSITY_GROUP_LIST: (SchoolGroup | string)[] = [
   },
   {
     group: "Europe",
-    schools: ["Cambridge University", "ETH Zurich", "Oxford University"],
+    schools: [
+      "Cambridge University",
+      "Delft University of Technology",
+      "ETH Zurich",
+      "Oxford University",
+    ],
   },
   {
     group: "Asia",
