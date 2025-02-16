@@ -1,6 +1,7 @@
 import LogoGlobe from "~/assets/logo-globe.svg?react";
 import LogoBookmark from "~/assets/logo-bookmark.svg?react";
 import LogoAccount from "~/assets/logo-account.svg?react";
+import LogoPoof from "~/assets/logo-poof.svg?react";
 import { useContext, useState } from "react";
 import Signin from "./Signin";
 import { Context } from "~/context";
@@ -17,7 +18,7 @@ export default function Navbar() {
           to="/"
           className="flex gap-2 text-[18px] items-center hover:brightness-80"
         >
-          <p>Poof</p>
+          <LogoPoof />
         </Link>
       </div>
       <div className="flex items-center gap-10">
