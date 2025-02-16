@@ -1,5 +1,6 @@
 import type { HTMLProps } from "react";
 import { useFormContext } from "react-hook-form";
+import type { SchoolGroup } from "~/constants";
 
 interface ControlledInputProps extends HTMLProps<HTMLInputElement> {
   name: string;
@@ -13,7 +14,7 @@ interface ControlledInputProps extends HTMLProps<HTMLInputElement> {
 interface ControlledSelectProps extends HTMLProps<HTMLSelectElement> {
   name: string;
   label?: string;
-  options: string[];
+  options: (SchoolGroup | string)[];
   containerProps?: HTMLProps<HTMLDivElement>;
   disabled?: boolean;
 }
@@ -78,6 +79,26 @@ export function FormSelect({
 }: ControlledSelectProps) {
   const { register } = useFormContext();
 
+  const universityGroups = options.map((op) => {
+    if (typeof op === "string") {
+      return (
+        <option key={op} value={op}>
+          {op}
+        </option>
+      );
+    } else {
+      return (
+        <optgroup key={op.group} label={op.group}>
+          {op.schools.map((school) => (
+            <option key={school} value={school}>
+              {school}
+            </option>
+          ))}
+        </optgroup>
+      );
+    }
+  });
+
   return (
     <div
       className={`flex flex-col gap-2 ${className} ${
@@ -111,11 +132,7 @@ export function FormSelect({
         disabled={disabled}
         {...props}
       >
-        {options.map((option) => (
-          <option key={option} value={option}>
-            {option}
-          </option>
-        ))}
+        {universityGroups}
       </select>
     </div>
   );

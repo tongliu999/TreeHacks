@@ -6,7 +6,7 @@ import { Context } from "~/context";
 import { useHomeCourseQuery, type CourseInfo } from "~/queries/queries";
 import IconLoading from "~/assets/icon-loading.svg?react";
 import CourseCard from "./CourseCard";
-import { UNIVERSITY_LIST } from "~/constants";
+import { UNIVERSITY_GROUP_LIST } from "~/constants";
 
 interface TFormValues {
   schoolSearch: string;
@@ -59,7 +59,7 @@ export default function SchoolSearch() {
             name="schoolSearch"
             placeholder="School name"
             label="Which school do you attend?"
-            options={UNIVERSITY_LIST}
+            options={UNIVERSITY_GROUP_LIST}
             containerProps={{ className: "flex-grow" }}
           />
           <FormInput
