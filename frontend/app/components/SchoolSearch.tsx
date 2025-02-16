@@ -28,6 +28,13 @@ export default function SchoolSearch() {
         courseCode: data.courseCodeSearch,
       },
     });
+    localStorage.setItem(
+      "home",
+      JSON.stringify({
+        school: data.schoolSearch,
+        courseCode: data.courseCodeSearch,
+      })
+    );
   });
 
   const { data, isLoading, error } = useHomeCourseQuery({
@@ -48,6 +55,10 @@ export default function SchoolSearch() {
         ...state,
         homeCourses: [...(state.homeCourses ?? []), course],
       });
+      localStorage.setItem(
+        "homeCourses",
+        JSON.stringify([...(state.homeCourses ?? []), course])
+      );
     }
   };
 

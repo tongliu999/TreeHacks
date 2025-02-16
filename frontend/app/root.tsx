@@ -12,7 +12,7 @@ import type { Route } from "./+types/root";
 import "./app.css";
 import Navbar from "./components/navbar";
 import { FormProvider, useForm } from "react-hook-form";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Context, type GlobalState } from "./context";
 import { QueryClient, QueryClientProvider } from "react-query";
 
@@ -35,6 +35,17 @@ export function Layout({ children }: { children: React.ReactNode }) {
   const [state, setState] = useState<GlobalState>({
     userId: "Alex",
     homeCourses: [],
+  });
+
+  useEffect(() => {
+    const userId = localStorage.getItem("userId");
+    const homeCourses = localStorage.getItem("homeCourses");
+    if (userId) {
+      setState((state) => ({ ...state, userId }));
+    }
+    if (homeCourses) {
+      setState((state) => ({ ...state, homeCourses: JSON.parse(homeCourses) }));
+    }
   });
   return (
     <QueryClientProvider client={queryClient}>

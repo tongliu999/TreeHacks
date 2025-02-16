@@ -8,6 +8,7 @@ export default function Signin({ onClose }: { onClose: () => void }) {
 
   const onSubmit = () => {
     setState({ ...state, userId });
+    localStorage.setItem("userId", userId);
     onClose();
   };
   const form = useForm({
