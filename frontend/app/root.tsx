@@ -32,7 +32,9 @@ export const links: Route.LinksFunction = () => [
 const queryClient = new QueryClient();
 
 export function Layout({ children }: { children: React.ReactNode }) {
-  const [state, setState] = useState<GlobalState>({});
+  const [state, setState] = useState<GlobalState>({
+    userId: "Alex",
+  });
   return (
     <QueryClientProvider client={queryClient}>
       <Context.Provider value={{ state, setState }}>

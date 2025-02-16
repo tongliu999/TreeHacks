@@ -17,16 +17,19 @@ interface AbroadQueryArgs {
   homeSchool: string;
   homeCourseCode: string;
   abroadSchool: string;
+  userId: string;
 }
 const abroadQuery = async ({
   homeSchool,
   homeCourseCode,
   abroadSchool,
+  userId,
 }: AbroadQueryArgs): Promise<CourseInfo[]> => {
   const { data } = await axios.post("/course_search", {
-    university: homeSchool,
-    course_code: homeCourseCode,
+    from_university: homeSchool,
+    from_code: homeCourseCode,
     target_school: abroadSchool,
+    user_id: userId,
   });
   return data.equivalences.map((course: any) =>
     course.equivalences.map((equivalence: any) => ({

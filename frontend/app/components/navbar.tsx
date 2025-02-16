@@ -1,8 +1,14 @@
 import LogoGlobe from "~/assets/logo-globe.svg?react";
 import LogoBookmark from "~/assets/logo-bookmark.svg?react";
 import LogoAccount from "~/assets/logo-account.svg?react";
+import { useContext, useState } from "react";
+import Signin from "./Signin";
+import { Context } from "~/context";
 
 export default function Navbar() {
+  const [showSignin, setShowSignin] = useState(false);
+  const { state } = useContext(Context);
+  // TODO: poof keyboard shortcut
   return (
     <nav className="flex justify-between items-center p-3 px-6 bg-nav text-white font-semibold text-xl">
       <div className="flex items-center gap-2">
@@ -22,11 +28,18 @@ export default function Navbar() {
           <LogoBookmark className="text-white" />
           My courses
         </a>
-        <button className="flex gap-2 text-[18px] items-center">
+        <button
+          onClick={() => {
+            console.log("yo");
+            setShowSignin(true);
+          }}
+          className="flex gap-2 text-[18px] items-center hover:cursor-pointer hover:brightness-80"
+        >
           <LogoAccount />
-          Hello, Eggy!
+          Hello, {state.userId}!
         </button>
       </div>
+      {showSignin && <Signin onClose={() => setShowSignin(false)} />}
     </nav>
   );
 }

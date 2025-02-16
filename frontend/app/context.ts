@@ -12,6 +12,7 @@ interface SubmittedAbroadForm {
 export interface GlobalState {
   home?: SubmittedHomeForm | null;
   abroad?: SubmittedAbroadForm | null;
+  userId?: string | null;
 }
 
 interface GlobalStateContext {
