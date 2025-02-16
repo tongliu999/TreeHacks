@@ -107,7 +107,6 @@ class CourseSearch:
                     "- course_name: the name of the course"
                     "- university: the university the course is from"
                     "- course_desc: a quick description of the course"
-                    "- similarity_score: how similar the course is to the given course from 1 - 20 and no decimals"
                 ),
             },
             {   
@@ -125,7 +124,6 @@ class CourseSearch:
         )
 
         content = response.choices[0].message.content
-        print(content)
 
         try:
             equivalences = json.loads(content)
@@ -146,10 +144,45 @@ class CourseSearch:
     def course_finder(self, course_code, university, num = 1, target_school = "all universities"):
         res = self.get_similar(course_code, university, num, target_school)
         return res
+    
+    def email_generator(self, from_university, to_university, equivalences):
+        
+        #break down input JSON
+
+        messages = [
+            {
+                "role": "system",
+                "content": (
+                    "You are an artificial intelligence assistant and you should only answer in an JSON format."
+                    "The email should take the course info from the input and generate an email that details how your planned courseload matches with your"
+                    "domestic school courseload. This email should be going to a academic advisor and should convince them that your planned courseload is a 1:1 subsitute."
+                    "The JSON should be a list of objects, each object should have the following properties:"
+                    "- subject: the subject line of the email"
+                    "- body: the body of the email"
+                ),
+            },
+            {   
+                "role": "user",
+                "content": (
+                    "Craft me the email based off this info: "
+                    f"Current university: {from_university}"
+                    f"Potential abroad university: {to_university}"
+                    f"Courses you're interested in: {equivalences}"
+                ),
+            },
+        ]
+
+        response = self.client.chat.completions.create(
+            model="sonar-pro",
+            messages=messages,
+        )
+
+        content = response.choices[0].message.content
+        return content
 
 if __name__ == "__main__":
     # Example usage
     course_search = CourseSearch()
-    course_search.course_finder("CFM 101", "University of Waterloo", 5)
+    course_search.course_finder("ECE358", "University of Waterloo", 5)
     # course_search.get_eligible_universities("University of waterloo", ["China", "Japan", "Netherlands"])
     

@@ -181,5 +181,31 @@ def get_equivalences_with_favourites():
     result = user_manager.get_equivalences_with_favourites(user_id, from_code, from_university, to_university)
     return jsonify(result)
 
+@app.route('/generate_email', methods=['GET'])
+def generate_email():
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "No data provided"}), 400
+    
+    from_code = data.get('from_code')
+    if not from_code:
+        return jsonify({"error": "from code is required"}), 400
+    
+    from_university = data.get('from_university')
+    if not from_university:
+        return jsonify({"error": "From university is required"}), 400
+    
+    to_university = data.get('to_university')
+    if not to_university:
+        return jsonify({"error": "To university is required"}), 400
+    
+    equivalences = data.get('equivalences')
+    if not to_university:
+        return jsonify({"error": "Equivalences is required"}), 400
+    
+    user_manager = UserManager()
+    result = user_manager.email_generator(from_university, to_university, equivalences)
+    return jsonify(result)
+
 if __name__ == '__main__':
     app.run(debug=True)
