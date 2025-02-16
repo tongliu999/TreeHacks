@@ -11,12 +11,14 @@ interface SavedCourseListProps {
   school: string | null | undefined;
   isLoading?: boolean;
   noText?: boolean;
+  onCourseSelect?: (course: CourseInfo) => void;
 }
 export default function SavedCourseList({
   courses,
   school,
   isLoading,
   noText = false,
+  onCourseSelect,
 }: SavedCourseListProps) {
   const { state, setState } = useContext(Context);
   const remainingCourses = Array.from(
@@ -48,6 +50,7 @@ export default function SavedCourseList({
             key={course.code}
             i={i}
             onDelete={() => deleteCourse(course)}
+            onClick={() => onCourseSelect?.(course)}
           />
         ))}
         {remainingCourses.map((i) => (

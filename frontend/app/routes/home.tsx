@@ -13,7 +13,20 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
-  const { state } = useContext(Context);
+  const { state, setState } = useContext(Context);
+
+  const setHomeCode = (code: string) => {
+    setState({
+      ...state,
+      home: state.home
+        ? {
+            ...state.home,
+            courseCode: code,
+          }
+        : undefined,
+    });
+  };
+
   return (
     <div className="flex gap-4 sm:flex-wrap md:flex-nowrap flex-grow w-full h-full">
       <div className="flex-grow gap-2 flex-col flex h-full grow-1 md:w-[40%]">
@@ -22,6 +35,7 @@ export default function Home() {
         <SavedCourseList
           school={state.home?.school ?? "Unknown"}
           courses={state.homeCourses ?? []}
+          onCourseSelect={(course) => setHomeCode(course.code)}
           noText
         />
       </div>

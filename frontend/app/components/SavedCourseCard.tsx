@@ -5,20 +5,23 @@ export default function SavedCourseCard({
   course,
   i,
   onDelete,
+  onClick,
 }: {
   course: CourseInfo;
   i: number;
   onDelete?: () => void;
+  onClick?: () => void;
 }) {
   const bgColor = CARD_BORDER_COLOURS[i % CARD_BORDER_COLOURS.length];
   return (
     <div
-      className="p-4 flex flex-col gap-1 bg-white rounded-lg w-full h-[5.25rem]"
+      className="p-4 flex flex-col gap-1 bg-white rounded-lg w-full h-[5.25rem] hover:cursor-pointer"
       style={{
         borderColor: bgColor,
         borderWidth: "2px",
         borderStyle: "solid",
       }}
+      onClick={onClick}
     >
       <div className="flex justify-between items-center h-full">
         <strong className="font-semibold">{course.title}</strong>
@@ -31,6 +34,7 @@ export default function SavedCourseCard({
             type="button"
             className="text-red-500 text-lg hover:cursor-pointer"
             onClick={onDelete}
+            title={`Remove ${course.code} from favourites`}
           >
             ×
           </button>
