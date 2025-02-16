@@ -61,7 +61,7 @@ export default function Home() {
           {numComparesArray.map((_, i) => (
             <CompareSchool
               hostSchool={school}
-              hostCourseCodes={[]}
+              hostCourseCodes={state.homeCourses?.map((c) => c.code) ?? []}
               key={i}
               onClose={() => setNumCompares(numCompares - 1)} // this doesn't work and deletes your data
             />

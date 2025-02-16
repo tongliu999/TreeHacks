@@ -1,6 +1,4 @@
-import {
-  useSavedCourseListQuery,
-} from "~/queries/queries";
+import { useSavedCourseListQuery } from "~/queries/queries";
 import Container from "./Container";
 import { useState } from "react";
 import SavedCourseCard from "./SavedCourseCard";
@@ -46,7 +44,7 @@ export default function CompareSchool({
         </button>
       </h1>
       <select
-        className="p-3 border rounded-lg w-full text-gray-400 border-gray-300"
+        className="p-3 border rounded-lg w-full text-gray-500 border-gray-300"
         value={selectedSchool}
         onChange={(e) => setSelectedSchool(e.target.value)}
       >

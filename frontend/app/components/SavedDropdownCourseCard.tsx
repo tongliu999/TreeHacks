@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { CARD_BORDER_COLOURS } from "~/constants";
 import { useAbroadQuery, type CourseInfo } from "~/queries/queries";
+import IconLoading from "~/assets/icon-loading.svg?react";
 
 export default function SavedDropdownCourseCard({
   hostCourseCode,
@@ -21,31 +22,45 @@ export default function SavedDropdownCourseCard({
     homeCourseCode: hostCourseCode,
     abroadSchool,
   });
+
   return (
-    <select
-      className="p-4 flex flex-col gap-1 bg-white rounded-lg w-full h-[5.25rem]"
+    <label
+      className={`p-4 pr-2 flex relative items-center justify-center gap-6 rounded-lg w-full h-[5.25rem] ${
+        isLoading ? "animate-pulse" : ""
+      }`}
       style={{
         borderColor: bgColor,
         borderWidth: "2px",
         borderStyle: "solid",
+        background: isLoading || !data ? "#F3F4F6" : "white",
       }}
     >
-      <div className="flex justify-between items-center h-full">
-        <strong className="font-semibold">{selectedCourse?.title}</strong>
-        <em className="italic text-[#9E9E9E]">
-          {selectedCourse?.credits} credit(s)
-        </em>
-      </div>
-      <p className="text-[#9E9E9E]">{selectedCourse?.code}</p>
-      {data?.map((course) => (
-        <option
-          key={course.code}
-          value={course.code}
-          onClick={() => setSelectedCourse(course)}
-        >
-          {course.title}
-        </option>
-      ))}
-    </select>
+      <select className="absolute inset-0 opacity-0 w-full h-full">
+        {data?.map((course) => (
+          <option
+            key={course.code}
+            value={course.code}
+            onClick={() => setSelectedCourse(course)}
+          >
+            {course.title} ({course.code})
+          </option>
+        ))}
+      </select>
+      {isLoading && <IconLoading style={{ color: "black" }} />}
+      {!isLoading && (
+        <>
+          <div className="flex gap-1 flex-col w-full h-full">
+            <div className="flex justify-between items-center h-full">
+              <strong className="font-semibold">{selectedCourse?.title}</strong>
+              <em className="italic text-[#9E9E9E]">
+                {selectedCourse?.credits} credit(s)
+              </em>
+            </div>
+            <p className="text-[#9E9E9E]">{selectedCourse?.code}</p>
+          </div>
+          <div>▼</div>
+        </>
+      )}
+    </label>
   );
 }
