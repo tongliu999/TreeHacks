@@ -2,6 +2,7 @@ import type { CourseInfo } from "~/queries/queries";
 import Container from "./Container";
 import SavedCourseCard from "./SavedCourseCard";
 import BlankCourseCard from "./BlankCourseCard";
+import { NUM_COURSES } from "~/constants";
 
 interface SavedCourseListProps {
   courses: CourseInfo[];
@@ -16,7 +17,7 @@ export default function SavedCourseList({
   noText = false,
 }: SavedCourseListProps) {
   const remainingCourses = Array.from(
-    { length: Math.max(0, 6 - courses.length) },
+    { length: Math.max(0, NUM_COURSES - courses.length) },
     (_, i) => i
   );
   return (

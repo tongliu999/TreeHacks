@@ -39,4 +39,11 @@ export const UNIVERSITY_LIST = [
   "ETH Zurich",
   "National University of Singapore",
   "Tokyo University",
+  "Hong Kong Polytechnic University",
+  "City University of Hong Kong",
+  "University of Toronto",
+  "Ewha Womans University",
+  "Tsinghua University",
 ];
+
+export const NUM_COURSES = 7;

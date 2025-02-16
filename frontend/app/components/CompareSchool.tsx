@@ -4,7 +4,7 @@ import { useState } from "react";
 import SavedCourseCard from "./SavedCourseCard";
 import BlankCourseCard from "./BlankCourseCard";
 import SavedDropdownCourseCard from "./SavedDropdownCourseCard";
-import { UNIVERSITY_LIST } from "~/constants";
+import { NUM_COURSES, UNIVERSITY_LIST } from "~/constants";
 interface CompareSchoolProps {
   hostSchool: string;
   hostCourseCodes: string[];
@@ -26,7 +26,7 @@ export default function CompareSchool({
   });
 
   const remainingCourses = Array.from(
-    { length: Math.max(0, 6 - (hostCourseCodes?.length ?? 0)) },
+    { length: Math.max(0, NUM_COURSES - (hostCourseCodes?.length ?? 0)) },
     (_, i) => i
   );
 

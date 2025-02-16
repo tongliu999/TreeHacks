@@ -1,6 +1,4 @@
 import type { Route } from "./+types/home";
-import { Welcome } from "../welcome/welcome";
-import Navbar from "~/components/navbar";
 import SchoolSearch from "~/components/SchoolSearch";
 import AbroadSearch from "~/components/AbroadSearch";
 import SavedCourseList from "~/components/SavedCourseList";
