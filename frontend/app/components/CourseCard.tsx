@@ -25,6 +25,7 @@ export default function CourseCard({
     >
       <div className="flex justify-between gap-2">
         <div className="flex gap-2">
+          <strong className="font-semibold">{title}</strong>
           {rating && (
             <span
               className="font-semibold"
@@ -35,7 +36,6 @@ export default function CourseCard({
               {rating}
             </span>
           )}
-          <strong className="font-semibold">{title}</strong>
           <span className="text-[#9E9E9E] italic">
             <em>{credits || 0} credit(s)</em>
           </span>
@@ -47,7 +47,7 @@ export default function CourseCard({
                 isBookmarked ? "fill-current" : "hover:fill-[#9E9E9E]"
               }`}
             />
-            </button>
+          </button>
         </div>
       </div>
       <p className="text-[#9E9E9E]">{code}</p>

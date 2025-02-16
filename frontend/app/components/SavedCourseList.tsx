@@ -3,6 +3,8 @@ import Container from "./Container";
 import SavedCourseCard from "./SavedCourseCard";
 import BlankCourseCard from "./BlankCourseCard";
 import { NUM_COURSES } from "~/constants";
+import { useContext } from "react";
+import { Context } from "~/context";
 
 interface SavedCourseListProps {
   courses: CourseInfo[];
@@ -16,10 +18,21 @@ export default function SavedCourseList({
   isLoading,
   noText = false,
 }: SavedCourseListProps) {
+  const { state, setState } = useContext(Context);
   const remainingCourses = Array.from(
     { length: Math.max(0, NUM_COURSES - courses.length) },
     (_, i) => i
   );
+
+  const deleteCourse = (course: CourseInfo) => {
+    setState({
+      ...state,
+      homeCourses: state.homeCourses?.filter(
+        ({ code }) => code !== course.code
+      ),
+    });
+  };
+
   return (
     <Container className="items-start gap-2 min-w-[30vw]">
       {!noText && (
@@ -30,7 +43,12 @@ export default function SavedCourseList({
       )}
       <div className="flex-col flex w-full gap-4 pt-2">
         {courses.map((course, i) => (
-          <SavedCourseCard course={course} key={course.code} i={i} />
+          <SavedCourseCard
+            course={course}
+            key={course.code}
+            i={i}
+            onDelete={() => deleteCourse(course)}
+          />
         ))}
         {remainingCourses.map((i) => (
           <BlankCourseCard key={i} />

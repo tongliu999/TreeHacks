@@ -4,9 +4,11 @@ import type { CourseInfo } from "~/queries/queries";
 export default function SavedCourseCard({
   course,
   i,
+  onDelete,
 }: {
   course: CourseInfo;
   i: number;
+  onDelete?: () => void;
 }) {
   const bgColor = CARD_BORDER_COLOURS[i % CARD_BORDER_COLOURS.length];
   return (
@@ -22,7 +24,18 @@ export default function SavedCourseCard({
         <strong className="font-semibold">{course.title}</strong>
         <em className="italic text-[#9E9E9E]">{course.credits} credit(s)</em>
       </div>
-      <p className="text-[#9E9E9E]">{course.code}</p>
+      <p className="text-[#9E9E9E] flex justify-between items-center">
+        <p>{course.code}</p>
+        {onDelete && (
+          <button
+            type="button"
+            className="text-red-500 text-lg hover:cursor-pointer"
+            onClick={onDelete}
+          >
+            ×
+          </button>
+        )}
+      </p>
     </div>
   );
 }

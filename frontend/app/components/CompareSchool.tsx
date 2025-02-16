@@ -1,7 +1,6 @@
 import { useSavedCourseListQuery } from "~/queries/queries";
 import Container from "./Container";
 import { useState } from "react";
-import SavedCourseCard from "./SavedCourseCard";
 import BlankCourseCard from "./BlankCourseCard";
 import SavedDropdownCourseCard from "./SavedDropdownCourseCard";
 import { NUM_COURSES, UNIVERSITY_LIST } from "~/constants";

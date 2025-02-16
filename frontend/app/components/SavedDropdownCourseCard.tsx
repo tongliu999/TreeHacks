@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { CARD_BORDER_COLOURS } from "~/constants";
+import { CARD_BORDER_COLOURS, RATING_COLOUR_BOUNDARIES } from "~/constants";
 import { useAbroadQuery, type CourseInfo } from "~/queries/queries";
 import IconLoading from "~/assets/icon-loading.svg?react";
 import IconStar from "~/assets/icon-star.svg?react";
@@ -65,6 +65,16 @@ export default function SavedDropdownCourseCard({
                   {selectedCourse?.is_bookmarked && (
                     <IconStar className="w-5 h-5 fill-yellow-500" />
                   )}
+                  {selectedCourse?.rating && (
+                    <span
+                      className="font-semibold"
+                      style={{
+                        color: findRatingColor(selectedCourse.rating),
+                      }}
+                    >
+                      {selectedCourse.rating}
+                    </span>
+                  )}
                 </strong>
                 <em className="italic text-[#9E9E9E]">
                   {selectedCourse?.credits} credit(s)
@@ -76,10 +86,17 @@ export default function SavedDropdownCourseCard({
           </div>
         </>
       ) : (
-        !isLoading && (
-          <p className="italic bg-[#9E9E9E]">No course equivalencies found</p>
-        )
+        !isLoading && <p className="italic">No course equivalencies found</p>
       )}
     </label>
   );
 }
+
+const findRatingColor = (rating: number) => {
+  for (const [maxRating, color] of RATING_COLOUR_BOUNDARIES) {
+    if (rating <= maxRating) {
+      return color;
+    }
+  }
+  return "#000000";
+};
