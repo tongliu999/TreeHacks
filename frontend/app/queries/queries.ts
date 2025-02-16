@@ -48,24 +48,33 @@ const homeCourseQuery = async ({
   school,
   courseCode,
 }: HomeCourseQueryArgs): Promise<CourseInfo[]> => {
+  const res = await axios.post("/get_course_desc", {
+    from_university: school,
+    from_code: courseCode,
+  });
+
   return [
     {
-      title: "Digital Hardware Systems",
-      code: "ECE 327",
-      credits: 1,
-      description:
-        "This course introduces the basic concepts of digital hardware systems, including combinational and sequential circuits, and the design of digital systems using hardware description languages.",
+      code: res.data.course_code,
+      title: res.data.course_name,
+      description: res.data.course_desc,
       is_bookmarked: false,
+      credits: 1,
     },
   ];
 };
 
 interface SavedCourseListQueryArgs {
   school: string;
+  userId: string;
 }
 const savedCourseListQuery = async ({
   school,
+  userId,
 }: SavedCourseListQueryArgs): Promise<CourseInfo[]> => {
+  const { data } = await axios.post("/get_user_courses", {
+    user_id: userId, // TODO
+  });
   return [
     {
       title: "Digital Hardware Systems",
