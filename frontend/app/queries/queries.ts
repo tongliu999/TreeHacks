@@ -1,6 +1,8 @@
 import axios from "axios";
+import { useContext } from "react";
 import { useQuery } from "react-query";
 import { API_ENDPOINT } from "~/constants";
+import { Context } from "~/context";
 
 axios.defaults.baseURL = API_ENDPOINT;
 
@@ -28,19 +30,17 @@ const abroadQuery = async ({
   const { data } = await axios.post("/course_search", {
     from_university: homeSchool,
     from_code: homeCourseCode,
-    target_school: abroadSchool,
+    to_university: abroadSchool,
     user_id: userId,
   });
-  return data.equivalences.map((course: any) =>
-    course.equivalences.map((equivalence: any) => ({
-      title: equivalence.course_name,
-      code: equivalence.course_code,
-      credits: 1,
-      description: equivalence.course_desc,
-      is_bookmarked: false, // TODO: alex needs to add this
-      rating: equivalence.similarity_score, // TODO: alex need sto fix BE here
-    }))
-  );
+  return data.equivalences.map((course: any) => ({
+    title: course.course_name,
+    code: course.course_code,
+    credits: 1,
+    description: course.course_desc,
+    is_bookmarked: false, // TODO: alex needs to add this
+    rating: course.similarity_score, // TODO: alex need sto fix BE here
+  }));
 };
 
 interface HomeCourseQueryArgs {
@@ -119,20 +119,15 @@ export const useAbroadQuery = ({
   homeCourseCode,
   abroadSchool,
 }: Partial<AbroadQueryArgs>) => {
+  const { state } = useContext(Context);
   return useQuery({
-    queryKey: [
-      "abroadQuery",
-      {
-        homeSchool,
-        homeCourseCode,
-        abroadSchool,
-      },
-    ],
+    queryKey: ["abroadQuery", homeSchool, homeCourseCode, abroadSchool],
     queryFn: async () =>
       abroadQuery({
         homeSchool: homeSchool!,
         homeCourseCode: homeCourseCode!,
         abroadSchool: abroadSchool!,
+        userId: state.userId!,
       }),
     enabled: !!homeSchool && !!homeCourseCode && !!abroadSchool,
   });
@@ -143,13 +138,7 @@ export const useHomeCourseQuery = ({
   courseCode,
 }: Partial<HomeCourseQueryArgs>) => {
   return useQuery({
-    queryKey: [
-      "homeCourseQuery",
-      {
-        school,
-        courseCode,
-      },
-    ],
+    queryKey: ["homeCourseQuery", school, courseCode],
     queryFn: async () =>
       homeCourseQuery({
         school: school!,
@@ -163,7 +152,7 @@ export const useSavedCourseListQuery = ({
   school,
 }: Partial<SavedCourseListQueryArgs>) => {
   return useQuery({
-    queryKey: ["savedCourseListQuery", { school }],
+    queryKey: ["savedCourseListQuery", school],
     queryFn: async () => savedCourseListQuery({ school: school! }),
     enabled: !!school,
   });
@@ -175,14 +164,7 @@ export const useLinkedCourseQuery = ({
   homeCourseCodes,
 }: Partial<LinkedCourseQueryArgs>) => {
   return useQuery({
-    queryKey: [
-      "linkedCourseQuery",
-      {
-        homeSchool,
-        abroadSchool,
-        homeCourseCodes,
-      },
-    ],
+    queryKey: ["linkedCourseQuery", homeSchool, abroadSchool, homeCourseCodes],
     queryFn: async () =>
       linkedCourseQuery({
         homeSchool: homeSchool!,

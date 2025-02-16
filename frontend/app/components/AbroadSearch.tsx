@@ -7,6 +7,7 @@ import LogoLeftArrow from "~/assets/logo-leftarrow.svg?react";
 import { useAbroadQuery } from "~/queries/queries";
 import CourseCard from "./CourseCard";
 import { UNIVERSITY_LIST } from "~/constants";
+import IconLoading from "~/assets/icon-loading.svg?react";
 
 interface TFormValues {
   abroadSchoolSearch: string;
@@ -53,7 +54,7 @@ export default function AbroadSearch() {
             className="cta-button h-min"
             disabled={!state.home}
           >
-            Find Courses
+            {isLoading ? <IconLoading /> : "Find Courses"}
           </button>
         </div>
         {!state.home && (

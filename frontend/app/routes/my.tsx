@@ -20,8 +20,7 @@ export function meta({}: Route.MetaArgs) {
 export default function Home() {
   const { state, setState } = useContext(Context);
 
-  //   const school = state?.home?.school;
-  const school = "University of Waterloo";
+  const school = state?.home?.school ?? "Unknown";
 
   useEffect(() => {
     if (!school) {
