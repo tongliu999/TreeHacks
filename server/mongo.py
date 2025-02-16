@@ -48,6 +48,8 @@ def get_course_info(course_code, university):
             print(f"No course found in storage for code {course_code} at {university}")
         else:
             print(f"Course info retrieved for {course_code} at {university} in storage")
+
+        course_info.pop("_id", None)
         return course_info
     
     except Exception as e:

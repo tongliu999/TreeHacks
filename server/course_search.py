@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 import json
 from mongo import save_course_info, get_course_info, save_equivalences, get_equivalences
-from utils import fill_equivalence_ids, package_equivalences
+from utils import format_equivalences, package_equivalences
 
 class CourseSearch:
     def __init__(self):
@@ -129,7 +129,7 @@ class CourseSearch:
 
         try:
             equivalences = json.loads(content)
-            equivalences = fill_equivalence_ids(equivalences)
+            equivalences = format_equivalences(equivalences)
             packaged_equivalences = package_equivalences(course_code, university, target_school, equivalences)
         except json.JSONDecodeError:
             raise ValueError("Failed to parse response as JSON")

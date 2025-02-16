@@ -9,6 +9,25 @@ app = Flask(__name__)
 def hello():
     return jsonify({"message": "Welcome to the API!"})
 
+@app.route('/get_course_desc', methods=['POST'])
+def get_course_desc():
+    data = request.get_json()
+    if not data:
+        return jsonify({"error": "No data provided"}), 400
+    
+    from_university = data.get('from_university')
+    if not from_university:
+        return jsonify({"error": "From university is required"}), 400
+    
+    from_code = data.get('from_code')
+    if not from_code:
+        return jsonify({"error": "From code is required"}), 400
+    
+    course_search = CourseSearch()
+    result = course_search.get_course_desc(from_code, from_university)
+    
+    return jsonify(result)
+
 @app.route('/course_search', methods=['POST'])
 def course_search():
     data = request.get_json()
