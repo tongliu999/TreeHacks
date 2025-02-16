@@ -107,6 +107,7 @@ class CourseSearch:
                     "- course_name: the name of the course"
                     "- university: the university the course is from"
                     "- course_desc: a quick description of the course"
+                    "- similarity_score: how similar the course is to the given course from 1 - 20 and no decimals"
                 ),
             },
             {   
@@ -124,6 +125,7 @@ class CourseSearch:
         )
 
         content = response.choices[0].message.content
+        print(content)
 
         try:
             equivalences = json.loads(content)
@@ -148,6 +150,6 @@ class CourseSearch:
 if __name__ == "__main__":
     # Example usage
     course_search = CourseSearch()
-    course_search.course_finder("ECE358", "University of Waterloo", 5)
+    course_search.course_finder("CFM 101", "University of Waterloo", 5)
     # course_search.get_eligible_universities("University of waterloo", ["China", "Japan", "Netherlands"])
     
