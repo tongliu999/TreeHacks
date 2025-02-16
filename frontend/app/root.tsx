@@ -1,4 +1,5 @@
 import {
+  Form,
   isRouteErrorResponse,
   Links,
   Meta,
@@ -10,6 +11,10 @@ import {
 import type { Route } from "./+types/root";
 import "./app.css";
 import Navbar from "./components/navbar";
+import { FormProvider, useForm } from "react-hook-form";
+import { useState } from "react";
+import { Context, type GlobalState } from "./context";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -24,22 +29,34 @@ export const links: Route.LinksFunction = () => [
   },
 ];
 
+const queryClient = new QueryClient();
+
 export function Layout({ children }: { children: React.ReactNode }) {
+  const [state, setState] = useState<GlobalState>({});
   return (
-    <html lang="en">
-      <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <Meta />
-        <Links />
-      </head>
-      <body className="flex flex-col">
-        <Navbar />
-        <div className="flex flex-col py-4 px-12 items-center">{children}</div>
-        <ScrollRestoration />
-        <Scripts />
-      </body>
-    </html>
+    <QueryClientProvider client={queryClient}>
+      <Context.Provider value={{ state, setState }}>
+        <html lang="en">
+          <head>
+            <meta charSet="utf-8" />
+            <meta
+              name="viewport"
+              content="width=device-width, initial-scale=1"
+            />
+            <Meta />
+            <Links />
+          </head>
+          <body className="flex flex-col h-full">
+            <Navbar />
+            <div className="flex flex-col pt-8 pb-4 px-12 items-center h-full">
+              {children}
+            </div>
+            <ScrollRestoration />
+            <Scripts />
+          </body>
+        </html>
+      </Context.Provider>
+    </QueryClientProvider>
   );
 }
 
