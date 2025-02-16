@@ -40,7 +40,7 @@ class CourseSearch:
         print(universities)
         return universities
 
-    def courseDesc(self, course_code, university):
+    def get_course_desc(self, course_code, university):
         course_info = get_course_info(course_code, university)
         if course_info:
             return course_info
@@ -82,9 +82,8 @@ class CourseSearch:
         save_course_info(course_info)
         return course_info
 
-
-    def courseFinder(self, course_code, university, num = 1, target_school = "all universities"):
-        course_info = self.courseDesc(course_code, university)
+    def course_finder(self, course_code, university, num = 1, target_school = "all universities"):
+        course_info = self.get_course_desc(course_code, university)
         course_desc = course_info["course_desc"]
 
         messages = [
@@ -94,9 +93,7 @@ class CourseSearch:
                     "You are an artificial intelligence assistant and you should only answer in JSON format."
                     "The JSON should be a list of objects, each object should have the following properties:"
                     "- course_code: the code of the course"
-                    "- course_name: the name of the course"
                     "- university: the university the course is from"
-                    "- course_desc: a quick description of the course"
                 ),
             },
             {   
@@ -122,6 +119,6 @@ class CourseSearch:
 
 if __name__ == "__main__":
     # Example usage
-    courseSearch = CourseSearch()
-    courseSearch.courseFinder("ECE358", "University of Waterloo", 5)
-    # courseSearch.get_eligible_universities("University of waterloo", ["China", "Japan", "Netherlands"])
+    course_search = CourseSearch()
+    course_search.course_finder("ECE358", "University of Waterloo", 5)
+    # course_search.get_eligible_universities("University of waterloo", ["China", "Japan", "Netherlands"])
