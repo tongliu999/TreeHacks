@@ -6,6 +6,7 @@ import Container from "./Container";
 import { useState } from "react";
 import SavedCourseCard from "./SavedCourseCard";
 import BlankCourseCard from "./BlankCourseCard";
+import SavedDropdownCourseCard from "./SavedDropdownCourseCard";
 
 interface CompareSchoolProps {
   hostSchool: string;
@@ -59,8 +60,8 @@ export default function CompareSchool({
         ))}
       </select>
       <div className="flex flex-col w-full gap-4">
-        {courseData?.map((course, i) => (
-          <SavedCourseCard course={course} key={course.code} i={i} />
+        {hostCourseCodes.map((course, i) => (
+          <SavedDropdownCourseCard hostCourseCode={course} key={course} i={i} />
         ))}
         {remainingCourses.map((i) => (
           <BlankCourseCard key={i} />
