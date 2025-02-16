@@ -17,11 +17,17 @@ export default function Navbar() {
           to="/"
           className="flex gap-2 text-[18px] items-center hover:brightness-80"
         >
-          <LogoGlobe />
           <p>Poof</p>
         </Link>
       </div>
       <div className="flex items-center gap-10">
+        <Link
+          to="/"
+          className="flex gap-2 text-[18px] items-center hover:brightness-80"
+        >
+          <LogoGlobe className="text-white" />
+          Explore
+        </Link>
         <Link
           to="/my"
           className="flex gap-2 text-[18px] items-center hover:brightness-80"
