@@ -74,7 +74,6 @@ export default function SchoolSearch() {
         </div>
         {state.home && data && (
           <div className="flex flex-col gap-2 pt-4 pb-2">
-            <h2>Courses offered at school {state.home?.school}</h2>
             <div className="w-full gap-4 flex flex-col">
               {data.map((course, i) => (
                 <CourseCard
