@@ -5,7 +5,7 @@ import os
 
 load_dotenv()
 
-uri = os.getenv("MONGO_URL")
+uri = f"mongodb+srv://admin:{os.getenv('MONGO_PASSWORD')}@treehacks.bnziq.mongodb.net/?retryWrites=true&w=majority&appName=treehacks"
 
 # Create a new client and connect to the server
 client = MongoClient(uri, server_api=ServerApi('1'))
