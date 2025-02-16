@@ -55,7 +55,7 @@ export default function CompareSchool({
           </option>
         ))}
       </select>
-      <button
+      {/* <button
         className="cta-button w-full"
         onClick={() => setShowEmailPopup(true)}
       >
@@ -75,7 +75,7 @@ Thank you for your time.
 Best regards,`}
           onClose={() => setShowEmailPopup(false)}
         />
-      )}
+      )} */}
       <div className="flex flex-col w-full gap-4">
         {hostCourseCodes.map((course, i) => (
           <SavedDropdownCourseCard
