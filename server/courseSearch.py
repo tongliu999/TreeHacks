@@ -82,7 +82,7 @@ class CourseSearch:
         save_course_info(course_info)
         return course_info
 
-    def course_finder(self, course_code, university, num = 1, target_school = "all universities"):
+    def get_similar(self, course_code, university, num, target_school):
         course_info = self.get_course_desc(course_code, university)
         course_desc = course_info["course_desc"]
 
@@ -93,7 +93,9 @@ class CourseSearch:
                     "You are an artificial intelligence assistant and you should only answer in JSON format."
                     "The JSON should be a list of objects, each object should have the following properties:"
                     "- course_code: the code of the course"
+                    "- course_name: the name of the course"
                     "- university: the university the course is from"
+                    "- course_desc: a quick description of the course"
                 ),
             },
             {   
@@ -110,8 +112,11 @@ class CourseSearch:
             messages=messages,
         )
 
-        output = response.choices[0].message.content
+        return response
         
+    def course_finder(self, course_code, university, num = 1, target_school = "all universities"):
+        res = self.get_similar(course_code, university, num, target_school)
+        output = res.choices[0].message.content
         try:
             return json.loads(output)
         except json.JSONDecodeError:
